@@ -9,7 +9,12 @@ class Shield {
 	 * @param  {String} bannerPosition Where to place the directional banner
 	 * 					relative to the shield.
 	 */
-	constructor(type="I-", routeNumber=0, to=false, banner, bannerPosition) {
+	constructor(type, routeNumber=0, to=false, banner, bannerPosition) {
+		if (Object.keys(this.types).includes(type)) {
+			this.type = type;
+		} else {
+			this.type = "I-";
+		}
 		this.type = type;
 		this.routeNumber = routeNumber;
 		this.to = to;
@@ -28,3 +33,62 @@ class Shield {
 
 Shield.prototype.bannerTypes = [" ", "North", "East", "South", "West", "Jct", "Begin", "End", "Spur", "Truck", "Bus", "Byp", "Future", "Loop", "Inner", "Outer",  "City", "To"];
 Shield.prototype.bannerPositions = ["ABOVE", "RIGHT", "LEFT"];
+Shield.prototype.types = {
+	"I-" : "I-",
+	"US" : "US",
+	"AL" : "AL",
+	"AK" : "AK",
+	"AZ" : "AZ",
+	"AR" : "AR",
+	"CA" : "CA",
+	"CO" : "CO",
+	"CT" : "rec2",
+	"DE" : "cir",
+	"DC" : "DC",
+	"FL" : "FL",
+	"GA" : "GA",
+	"HI" : "HI",
+	"ID" : "ID",
+	"IL" : "IL",
+	"IN" : "IN",
+	"IA" : "cir",
+	"KS" : "KS",
+	"KY" : "cir",
+	"LA" : "LA",
+	"ME" : "rec",
+	"MD" : "MD",
+	"MA" : "rec",
+	"MI" : "MI",
+	"MN" : "MN",
+	"MS" : "elp",
+	"MO" : "MO",
+	"MT" : "MT",
+	"MT 2nd" : "MT2",
+	"NE" : "NE",
+	"NV" : "NV",
+	"NH" : "NH",
+	"NJ" : "elp",
+	"NM" : "NM",
+	"NY" : "NY",
+	"NC" : "NC",
+	"ND" : "ND",
+	"OH" : "OH",
+	"OK" : "OK",
+	"OR" : "OR",
+	"PA" : "PA",
+	"RI" : "RI",
+	"SC" : "SC",
+	"SD" : "SD",
+	"TN" : "TN",
+	"TN 2nd" : "TN2",
+	"TX" : "TX",
+	"UT" : "UT",
+	"VT" : "VT",
+	"VA" : "VA",
+	"VA 2nd" : "VA2",
+	"WA" : "WA",
+	"WV" : "rec2",
+	"WI" : "WI",
+	"WY" : "WY",
+	"C-" : "C-"
+};
