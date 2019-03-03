@@ -23,7 +23,7 @@ class Sign {
 		if (Object.keys(this.shieldPositions).includes(shieldPosition)) {
 			this.shieldPosition = shieldPosition;
 		} else {
-			this.shieldPosition = this.shieldPositions["Above"];
+			this.shieldPosition = "Above";
 		}
 		if (this.exitTabPositions.includes(exitTabPosition)) {
 			this.exitTabPosition = exitTabPosition;
@@ -51,8 +51,9 @@ Sign.prototype.shieldPositions = {
 };
 Sign.prototype.exitTabPositions = ["Left", "Center", "Right"];
 Sign.prototype.guideArrows = {
+	"None" : " ",
 	"Side Left" : "sideLeft",
-	"Side RIght" : "sideRight",
+	"Side Right" : "sideRight",
 	"Exit Only" : "exitOnly",
 	"Left/Down Arrow" : "leftDownArrow",
 	"Left Arrow" : "leftArrow",
@@ -60,6 +61,6 @@ Sign.prototype.guideArrows = {
 	"Right/Down Arrow" : "rightDownArrow",
 	"Right Arrow" : "rightArrow",
 	"Right/Up Arrow" : "rightUpArrow",
-	"downArrow" : "Down Arrow",
-	"upArrow" : "Up Arrow"
+	"Down Arrow" : "downArrow",
+	"Up Arrow" : "upArrow"
 }
