@@ -1,10 +1,10 @@
-let lib = (function() {
+const lib = (function() {
 
 	/**
 	 * Clears out the children from a given element.
-	 * @param  {Element} parentElmt - Parent element to be cleared of children.
+	 * @param  {Element} parentElmt Parent element to be cleared of children.
 	 */
-	var clearChildren = function(parentElmt) {
+	const clearChildren = function(parentElmt) {
 		while (parentElmt.firstChild) {
 			parentElmt.removeChild(parentElmt.firstChild);
 		}
@@ -12,16 +12,16 @@ let lib = (function() {
 
 	/**
 	 * Creates and appends an option element to a given Select element.
-	 * @param  {Element} selectElmt - Select element to be appended to.
-	 * @param  {String} value - Value to be held by the option.
-	 * @param  {boolean} [selected=false] - Whether or not the new option should be auto-selected.
-	 * @param  {String} text - Display text for the option.
+	 * @param  {Element} selectElmt Select element to be appended to.
+	 * @param  {string} value Value to be held by the option.
+	 * @param  {boolean} [selected=false] Whether or not the new option should be auto-selected.
+	 * @param  {string} text Display text for the option.
 	 */
-	var appendOption = function(selectElmt, value, selected=false, text) {
+	const appendOption = function(selectElmt, value, selected=false, text) {
 		if (!text) {
 			text = value;
 		}
-		let optionElmt = document.createElement("option");
+		const optionElmt = document.createElement("option");
 		optionElmt.value = value;
 		optionElmt.selected = selected;
 		optionElmt.appendChild(document.createTextNode(text));
@@ -29,7 +29,7 @@ let lib = (function() {
 	}
 
 	// FHW-defined colors.
-	let colors = {
+	const colors = {
 		Green : "rgb(0, 95, 77)",
 		Blue : "rgb(0, 67, 123)",
 		Brown : "rgb(98, 51, 30)",
@@ -38,9 +38,30 @@ let lib = (function() {
 		Black : "rgb(0, 0, 0)"
 	};
 
+	const specialCharacters = {
+		sideLeftArrow : "h", // "h" is left-side up arrow in Roadgeek 2005 Arrows 1
+		sideRightArrow : "H", // "H" is right-side up arrow in Roadgeek 2005 Arrows 1
+
+		"Left/Down Arrow" : "f", // "f" is left-down arrow in Roadgeek 2005 Arrows 1
+		"Left Arrow" : "j", // "j" is left arrow in Roadgeek 2005 Arrows 1
+		"Right/Down Arrow" : "F", // "F" is right-down arrow in Roadgeek 2005 Arrows 1
+		"Right Arrow" : "J", // "J" is right arrow in Roadgeek 2005 Arrows 1
+
+		"Up Arrow" : "4", // "4" is up arrow in Roadgeek 2005 Arrows 2
+		"Down Arrow" : "$" // "$" is down arrow in roadgeek 2005 arrows 2
+	}
+
+	const shieldPositions = {
+		Left : "row",
+		Above : "column",
+		Right : "row-reverse"
+	}
+
 	return {
 		clearChildren : clearChildren,
 		appendOption : appendOption,
-		colors : colors
+		colors : colors,
+		specialCharacters : specialCharacters,
+		shieldPositions : shieldPositions
 	};
 })();
