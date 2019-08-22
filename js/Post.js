@@ -2,7 +2,7 @@ class Post {
 	/**
 	 * Post that contains the panels.
 	 * @method constructor
-	 * @param  {String} postType Type of post on which to display the panels.
+	 * @param  {string} postType Type of post on which to display the panels.
 	 * @param  {number} [lanesWide=0] How many lanes wide the post should
 	 * 					appear to be.
 	 */
@@ -27,7 +27,8 @@ class Post {
 	 */
 	newPanel() {
 		let newSign = new Sign("New Sign");
-		let newPanel = new Panel(newSign);
+		let newExitTab = new ExitTab();
+		let newPanel = new Panel(newSign, undefined, newExitTab);
 		this.panels.push(newPanel);
 	}
 
@@ -64,9 +65,10 @@ class Post {
 	shiftLeft(panelIndex) {
 		// If already at the far left end, return.
 		if (panelIndex <= 0) {
-			return;
+			return panelIndex;
 		}
 		this.panels.splice(panelIndex-1, 2, this.panels[panelIndex], this.panels[panelIndex-1]);
+		return panelIndex - 1;
 	}
 
 	/**
@@ -79,9 +81,10 @@ class Post {
 	shiftRight(panelIndex) {
 		// If already at the far right end, return.
 		if (panelIndex >= this.panels.length-1) {
-			return;
+			return panelIndex;
 		}
 		this.panels.splice(panelIndex, 2, this.panels[panelIndex+1], this.panels[panelIndex]);
+		return panelIndex + 1;
 	}
 }
 

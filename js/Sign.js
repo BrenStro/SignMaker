@@ -3,21 +3,20 @@ class Sign {
 	/**
 	 * Cretes a new sign.
 	 * @method constructor
-	 * @param  {String} controlText Control cities to display on the sign.
-	 * @param  {String} [shieldPosition=null] Where the shields should be
+	 * @param  {string} controlText Control cities to display on the sign.
+	 * @param  {string} [shieldPosition=null] Where the shields should be
 	 * 					displayed relative to the control cities.
-	 * @param  {String} [exitTabPosition=null] Position to display the exit tab
-	 * 					relative to the sign.
-	 * @param  {[type]} [guideArrow=null] Which guide arrow to display on the
+	 * @param  {boolean} [shieldBacks=false] Whether or not shields should be
+	 * 					displayed with backings.
+	 * @param  {string} [gOh uideArrow=null] Which guide arrow to display on the
 	 * 					sign, if any.
 	 * @param  {number} [guideArrowLanes=0] Number of lanes actoss to display
 	 * 					guide arrows.
 	 * @param  {string} [customText=""] Custom subtext to display on the sign.
 	 */
 	constructor(controlText="",
-			shieldPosition=null,
-			exitTabPosition=null,
-			guideArrow=null, guideArrowLanes=0, customText="") {
+			shieldPosition=null, shieldBacks=false,
+			guideArrow=null, guideArrowLanes=1, customText="") {
 
 		this.controlText = controlText;
 		if (Object.keys(this.shieldPositions).includes(shieldPosition)) {
@@ -25,15 +24,11 @@ class Sign {
 		} else {
 			this.shieldPosition = "Above";
 		}
-		if (this.exitTabPositions.includes(exitTabPosition)) {
-			this.exitTabPosition = exitTabPosition;
-		} else {
-			this.exitTabPosition = this.exitTabPositions[1];
-		}
+		this.shieldBacks = shieldBacks;
 		if (Object.keys(this.guideArrows).includes(guideArrow)) {
 			this.guideArrow = guideArrow;
 		} else {
-			this.guideArrow = null;
+			this.guideArrow = "None";
 		}
 		if (guideArrowLanes >= 0 && guideArrowLanes <= 6) {
 			this.guideArrowLanes = guideArrowLanes;
@@ -41,26 +36,43 @@ class Sign {
 			this.guideArrowLanes = 0;
 		}
 		this.customText = customText;
+		this.shields = [];
+	}
+
+	/**
+	 * Create a new shield for the post. Add it to the end of the list of
+	 * 		existing shields.
+	 * @method newShield
+	 */
+	newShield() {
+		const newShield = new Shield();
+		this.shields.push(newShield);
+	}
+
+	/**
+	 * Delete an existing shield at the requested index.
+	 * @method deleteShield
+	 * @param  {Number} shieldIndex Position of the shield in the array of
+	 * 					shields on this sign to delete.
+	 */
+	deleteShield(shieldIndex) {
+		this.shields.splice(shieldIndex, 1);
 	}
 }
 
-Sign.prototype.shieldPositions = {
-	Left : "row",
-	Above : "column",
-	Right : "row-reverse"
-};
-Sign.prototype.exitTabPositions = ["Left", "Center", "Right"];
-Sign.prototype.guideArrows = {
-	"None" : " ",
-	"Side Left" : "sideLeft",
-	"Side Right" : "sideRight",
-	"Exit Only" : "exitOnly",
-	"Left/Down Arrow" : "leftDownArrow",
-	"Left Arrow" : "leftArrow",
-	"Left/Up Arrow" : "leftUpArrow",
-	"Right/Down Arrow" : "rightDownArrow",
-	"Right Arrow" : "rightArrow",
-	"Right/Up Arrow" : "rightUpArrow",
-	"Down Arrow" : "downArrow",
-	"Up Arrow" : "upArrow"
-}
+Sign.prototype.shieldPositions = ["Left", "Above", "Right"];
+Sign.prototype.guideArrows = [
+	"None",
+	"Side Left",
+	"Side Right",
+	"Exit Only",
+	"Left/Down Arrow",
+	"Left Arrow",
+	"Left/Up Arrow",
+	"Right/Down Arrow",
+	"Right Arrow",
+	"Right/Up Arrow",
+	"Down Arrow",
+	"Up Arrow",
+	"Custom Text"
+];

@@ -2,17 +2,25 @@ class ExitTab {
 	/**
 	 * Creates a new ExitTab.
 	 * @method constructor
-	 * @param  {String} exitNumber Number to display on the exit tab.
-	 * @param  {String} tabWidth Width of the exit tab (narrow or wide).
+	 * @param  {string} number Number to display on the exit tab.
+	 * @param  {string} [position=null] Position to display the exit tab
+	 * 					relative to the sign.
+	 * @param  {String} [width=null] Width of the exit tab (narrow or wide).
 	 */
-	constructor (exitNumber, tabWidth) {
-		this.exitNumber = exitNumber;
-		if (this.tabWidths.includes(tabWidth)) {
-			this.tabWidth = tabWidth;
+	constructor (number=null, position=null, width=null) {
+		this.number = number;
+		if (this.positions.includes(position)) {
+			this.position = position;
 		} else {
-			this.tabWidth = this.tabWidths[0];
+			this.position = this.positions[1];
+		}
+		if (this.widths.includes(width)) {
+			this.width = width;
+		} else {
+			this.width = this.widths[0];
 		}
 	}
 }
 
-ExitTab.prototype.tabWidths = ["Narrow", "Wide"];
+ExitTab.prototype.positions = ["Left", "Center", "Right"];
+ExitTab.prototype.widths = ["Narrow", "Wide"];
