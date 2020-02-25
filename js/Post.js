@@ -2,15 +2,15 @@ class Post {
 	/**
 	 * Post that contains the panels.
 	 * @method constructor
-	 * @param  {string} postType Type of post on which to display the panels.
+	 * @param  {string} polePosition Position of the poles on which to display the panels.
 	 * @param  {number} [lanesWide=0] How many lanes wide the post should
 	 * 					appear to be.
 	 */
-	constructor(type, lanesWide=0) {
-		if (this.types.includes(type)) {
-			this.type = type;
+	constructor(polePosition, lanesWide=0) {
+		if (this.polePositions.includes(polePosition)) {
+			this.polePosition = polePosition;
 		} else {
-			this.type = this.types[0];
+			this.polePosition = this.polePositions[0];
 		}
 		if (lanesWide >= 0 && lanesWide <= 6) {
 			this.lanesWide = lanesWide;
@@ -41,7 +41,23 @@ class Post {
 	 */
 	duplicatePanel(panelIndex) {
 		let existingPanel = this.panels[panelIndex];
-		let newPanel = Object.assign({}, existingPanel);
+		let newShields = [];
+		for (let shield of existingPanel.sign.shields) {
+			newShields.push(Object.assign(new Shield(), shield));
+		}
+		let newSign = new Sign(
+			existingPanel.sign.controlText,
+			existingPanel.sign.shieldPosition,
+			existingPanel.sign.sheildBacks,
+			existingPanel.sign.guideArrow,
+			existingPanel.sign.guideArrowLanes,
+			existingPanel.sign.customText,
+			newShields
+		);
+		let newExitTab = Object.assign(new ExitTab(), existingPanel.exitTab);
+		let newPanel = Object.assign(new Panel(), existingPanel);
+		newPanel.sign = newSign;
+		newPanel.exitTab = newExitTab;
 		this.panels.splice(++panelIndex, 0, newPanel);
 	}
 
@@ -88,7 +104,7 @@ class Post {
 	}
 }
 
-Post.prototype.types = [
+Post.prototype.polePositions = [
 	"Left",
 	"Right",
 	"Overhead",

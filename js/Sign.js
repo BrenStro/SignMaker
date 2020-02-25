@@ -8,16 +8,21 @@ class Sign {
 	 * 					displayed relative to the control cities.
 	 * @param  {boolean} [shieldBacks=false] Whether or not shields should be
 	 * 					displayed with backings.
-	 * @param  {string} [gOh uideArrow=null] Which guide arrow to display on the
+	 * @param  {string} [guideArrow=null] Which guide arrow to display on the
 	 * 					sign, if any.
 	 * @param  {number} [guideArrowLanes=0] Number of lanes actoss to display
 	 * 					guide arrows.
 	 * @param  {string} [customText=""] Custom subtext to display on the sign.
 	 */
-	constructor(controlText="",
-			shieldPosition=null, shieldBacks=false,
-			guideArrow=null, guideArrowLanes=1, customText="") {
-
+	constructor(
+		controlText="",
+		shieldPosition=null,
+		shieldBacks=false,
+		guideArrow=null,
+		guideArrowLanes=1,
+		customText="",
+		shields=[]
+	) {
 		this.controlText = controlText;
 		if (Object.keys(this.shieldPositions).includes(shieldPosition)) {
 			this.shieldPosition = shieldPosition;
@@ -36,7 +41,7 @@ class Sign {
 			this.guideArrowLanes = 0;
 		}
 		this.customText = customText;
-		this.shields = [];
+		this.shields = shields;
 	}
 
 	/**

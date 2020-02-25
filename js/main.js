@@ -8,7 +8,13 @@ const app = (function() {
 	 */
 	const init = function() {
 		// Create the post on which to place panels
-		post = new Post(Post.prototype.types[0]);
+		post = new Post(Post.prototype.polePositions[0]);
+
+		// Populate post position options
+		const postPositionSelectElmt = document.getElementById("postPosition");
+		for (const polePosition of Post.prototype.polePositions) {
+			lib.appendOption(postPositionSelectElmt, polePosition, (polePosition == "Overhead"));
+		}
 
 		// Populate color options
 		const colorSelectElmt = document.getElementById("panelColor");
@@ -81,7 +87,9 @@ const app = (function() {
 	 */
 	const deletePanel = function() {
 		post.deletePanel(currentlySelectedPanelIndex);
-		currentlySelectedPanelIndex--;
+		if (currentlySelectedPanelIndex > 0) {
+			currentlySelectedPanelIndex--;
+		}
 		if (post.panels.length == 0) {
 			newPanel();
 		} else {
@@ -156,6 +164,9 @@ const app = (function() {
 	const readForm = function() {
 		const form = document.forms[0];
 		const panel = post.panels[currentlySelectedPanelIndex];
+
+		// Post
+		post.polePosition = form["postPosition"].value;
 
 		// Exit Tab
 		panel.color = form["panelColor"].value;
@@ -333,11 +344,19 @@ const app = (function() {
 	 * @method redraw
 	 */
 	const redraw = function() {
-		const panelsElmt = document.getElementById("panels");
-		lib.clearChildren(panelsElmt);
+		const postElmt = document.getElementById("panels");
+		if (["Left", "Right", "Overhead"].includes(post.polePosition)) {
+			postElmt.className = "overhead";
+		} else {
+			postElmt.className = post.polePosition.toLowerCase();
+		}
+		lib.clearChildren(postElmt);
 		for (const panel of post.panels) {
 			const panelElmt = document.createElement("div");
 			panelElmt.className = "panel";
+			if (post.polePosition == "Rural") {
+				panelElmt.className += " rural";
+			}
 
 			const exitTabElmt = document.createElement("div");
 			exitTabElmt.className = "exitTab";
@@ -373,7 +392,7 @@ const app = (function() {
 			guideArrowsElmt.className = "guideArrows";
 			panelElmt.appendChild(guideArrowsElmt);
 
-			panelsElmt.appendChild(panelElmt);
+			postElmt.appendChild(panelElmt);
 
 			// Panel Color
 			exitTabElmt.style.backgroundColor = lib.colors[panel.color];
