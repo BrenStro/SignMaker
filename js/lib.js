@@ -17,7 +17,7 @@ const lib = (function() {
 	 * @param  {boolean} [selected=false] Whether or not the new option should be auto-selected.
 	 * @param  {string} text Display text for the option.
 	 */
-	const appendOption = function(selectElmt, value, selected=false, text) {
+	const appendOption = function(selectElmt, value, {selected = false, text} = {}) {
 		if (!text) {
 			text = value;
 		}
@@ -49,13 +49,13 @@ const lib = (function() {
 
 		"Up Arrow" : "4", // "4" is up arrow in Roadgeek 2005 Arrows 2
 		"Down Arrow" : "$" // "$" is down arrow in roadgeek 2005 arrows 2
-	}
+	};
 
 	const shieldPositions = {
 		Left : "row",
 		Above : "column",
 		Right : "row-reverse"
-	}
+	};
 
 	return {
 		clearChildren : clearChildren,

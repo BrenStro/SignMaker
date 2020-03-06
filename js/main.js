@@ -13,37 +13,37 @@ const app = (function() {
 		// Populate post position options
 		const postPositionSelectElmt = document.getElementById("postPosition");
 		for (const polePosition of Post.prototype.polePositions) {
-			lib.appendOption(postPositionSelectElmt, polePosition, (polePosition == "Overhead"));
+			lib.appendOption(postPositionSelectElmt, polePosition, {selected : (polePosition == "Left")});
 		}
 
 		// Populate color options
 		const colorSelectElmt = document.getElementById("panelColor");
 		for (const color in lib.colors) {
-			lib.appendOption(colorSelectElmt, color);
+			lib.appendOption(colorSelectElmt, color, {text : color});
 		}
 
 		// Populate exit tab position options
 		const exitTabPositionSelectElmt = document.getElementById("exitTabPosition");
 		for (const position of ExitTab.prototype.positions) {
-			lib.appendOption(exitTabPositionSelectElmt, position, (position == "Right"));
+			lib.appendOption(exitTabPositionSelectElmt, position, {selected : (position == "Right")});
 		}
 
 		// Populate exit tab width options
 		const exitTabWidthSelectElmt = document.getElementById("exitTabWidth");
 		for (const width of ExitTab.prototype.widths) {
-			lib.appendOption(exitTabWidthSelectElmt, width, (width == "Narrow"));
+			lib.appendOption(exitTabWidthSelectElmt, width, {selected : (width == "Narrow")});
 		}
 
 		// Populate the shield position options
 		const shieldPositionsSelectElmt = document.getElementById("shieldsPosition");
 		for (const position of Sign.prototype.shieldPositions) {
-			lib.appendOption(shieldPositionsSelectElmt, position, (position == "Above"));
+			lib.appendOption(shieldPositionsSelectElmt, position, {selected : (position == "Above")});
 		}
 
 		// Populate the guide arrow options
 		const guideArrowSelectElmt = document.getElementById("guideArrow");
 		for (const guideArrow of Sign.prototype.guideArrows) {
-			lib.appendOption(guideArrowSelectElmt, guideArrow, false);
+			lib.appendOption(guideArrowSelectElmt, guideArrow, {selected : false});
 		}
 
 		newPanel();
@@ -203,7 +203,7 @@ const app = (function() {
 		const editingPanelSelectElmt = document.getElementById("panelEditing");
 		lib.clearChildren(editingPanelSelectElmt);
 		for (let panelIndex = 0, panelsLength = post.panels.length; panelIndex < panelsLength; panelIndex++) {
-			lib.appendOption(editingPanelSelectElmt, panelIndex, panelIndex == currentlySelectedPanelIndex, `Panel ${panelIndex + 1}`);
+			lib.appendOption(editingPanelSelectElmt, panelIndex, {selected : panelIndex == currentlySelectedPanelIndex, text : `Panel ${panelIndex + 1}`});
 		}
 
 		const panel = post.panels[currentlySelectedPanelIndex];
@@ -296,7 +296,7 @@ const app = (function() {
 			// Populate shield options
 			const typeSelectElmt = document.createElement("select");
 			for (const type in Shield.prototype.types) {
-				lib.appendOption(typeSelectElmt, Shield.prototype.types[type], (shields[shieldIndex].type == Shield.prototype.types[type]), type);
+				lib.appendOption(typeSelectElmt, Shield.prototype.types[type], {selected : (shields[shieldIndex].type == Shield.prototype.types[type]), text : type});
 			}
 			typeSelectElmt.id = `shield${shieldIndex}_type`;
 			typeSelectElmt.addEventListener("change", readForm);
@@ -313,7 +313,7 @@ const app = (function() {
 			// Populate banner type options
 			const bannerTypeSelectElmt = document.createElement("select");
 			for (const bannerType of Shield.prototype.bannerTypes) {
-				lib.appendOption(bannerTypeSelectElmt, bannerType, (shields[shieldIndex].bannerType == bannerType));
+				lib.appendOption(bannerTypeSelectElmt, bannerType, {selected : (shields[shieldIndex].bannerType == bannerType)});
 			}
 			bannerTypeSelectElmt.id = `shield${shieldIndex}_bannerType`;
 			bannerTypeSelectElmt.addEventListener("change", readForm);
@@ -322,7 +322,7 @@ const app = (function() {
 			// Populate banner position options
 			const bannerPositionSelectElmt = document.createElement("select");
 			for (const bannerPosition of Shield.prototype.bannerPositions) {
-				lib.appendOption(bannerPositionSelectElmt, bannerPosition, (shields[shieldIndex].bannerPosition == bannerPosition));
+				lib.appendOption(bannerPositionSelectElmt, bannerPosition, {selected : (shields[shieldIndex].bannerPosition == bannerPosition)});
 			}
 			bannerPositionSelectElmt.id = `shield${shieldIndex}_bannerPosition`;
 			bannerPositionSelectElmt.addEventListener("change", readForm);
