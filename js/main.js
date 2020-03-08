@@ -417,10 +417,26 @@ const app = (function() {
 			}
 
 			// Shields
-			let hasBanner = false;
+			let hasBanners = false;
 			for (const shield of panel.sign.shields) {
-				if (shield.bannerType != "None") {
-					hasBanner = true;
+				if (
+					shield.bannerType != "None" && !(
+						(shield.type === "I-" && shield.bannerType === "Bus") ||
+						(shield.type === "AZ" && shield.bannerType === "Loop" && shield.routeNumber.length >= 3) ||
+						(shield.type === "FL" && shield.bannerType === "Toll") ||
+						(shield.type === "GA" && shield.bannerType === "Alt") ||
+						(shield.type === "GA" && shield.bannerType === "Byp") ||
+						(shield.type === "GA" && shield.bannerType === "Conn") ||
+						(shield.type === "GA" && shield.bannerType === "Loop") ||
+						(shield.type === "GA" && shield.bannerType === "Spur") ||
+						(shield.type === "MN" && shield.bannerType === "Bus") ||
+						(shield.type === "NE" && shield.bannerType === "Link" && shield.routeNumber.length <= 2) ||
+						(shield.type === "NE" && shield.bannerType === "Spur" && shield.routeNumber.length <= 2) ||
+						(shield.type === "TX" && shield.bannerType === "Loop") ||
+						(shield.type === "TX" && shield.bannerType === "Spur") 
+					)
+				) {
+					hasBanners = true;
 					break;
 				}
 			}
@@ -710,9 +726,9 @@ const app = (function() {
 				routeNumberElmt.appendChild(document.createTextNode(shield.routeNumber));
 
 				// Route banner
-				if (hasBanner && shield.bannerType == "None") {
+				if (hasBanners && shield.bannerType == "None") {
 					bannerElmt.style.visibility = "hidden";
-				} else if (!hasBanner) {
+				} else if (!hasBanners) {
 					bannerElmt.style.display = "none";
 				}
 				bannerElmt.appendChild(document.createTextNode(shield.bannerType));
@@ -747,7 +763,7 @@ const app = (function() {
 					bannerShieldContainerElmt.style.flexDirection = "column";
 					shield.bannerPosition = "Above";
 				} else if (shield.type === "GA" && shield.bannerType === "Byp") {
-					if (hield.routeNumber.length <= 2) {
+					if (shield.routeNumber.length <= 2) {
 						shieldImgElmt.data = imgDir + "Georgia-2-BYP.svg";
 					} else if (shield.routeNumber.length >= 3) {
 						shieldImgElmt.data = imgDir + "Georgia-3-BYP.svg";
