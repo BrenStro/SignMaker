@@ -1,13 +1,11 @@
 class ExitTab {
 	/**
 	 * Creates a new ExitTab.
-	 * @method constructor
-	 * @param  {string} number Number to display on the exit tab.
-	 * @param  {string} [position=null] Position to display the exit tab
-	 * 					relative to the sign.
-	 * @param  {String} [width=null] Width of the exit tab (narrow or wide).
+	 * @param {string} number - Number to display on the exit tab.
+	 * @param {string} [position=null] - Position to display the exit tab relative to the sign.
+	 * @param {string} [width=null] - Width of the exit tab (narrow or wide).
 	 */
-	constructor (number=null, position=null, width=null) {
+	constructor (number = null, position = null, width = null) {
 		this.number = number;
 		if (this.positions.includes(position)) {
 			this.position = position;

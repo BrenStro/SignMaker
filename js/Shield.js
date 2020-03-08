@@ -1,15 +1,13 @@
 class Shield {
 	/**
 	 * Creates anew a route shield.
-	 * @method constructor
-	 * @param  {string} [type="I-"] Type of shield.
-	 * @param  {number} [routeNumber=0] Route number to display on shield.
-	 * @param  {boolean} [to=false] Whether or not the shield should be signed as "TO".
-	 * @param  {string} bannerType Directional banner to display.
-	 * @param  {string} bannerPosition Where to place the directional banner
-	 * 					relative to the shield.
+	 * @param {string} [type="I-"] - Type of shield.
+	 * @param {number} [routeNumber="1"] - Route number to display on shield.
+	 * @param {boolean} [to=false] - Whether or not the shield should be signed as "TO".
+	 * @param {string} [bannerType] - Directional banner to display.
+	 * @param {string} [bannerPosition] - Where to place the directional banner relative to the shield.
 	 */
-	constructor(type="I-", routeNumber="0", to=false, bannerType, bannerPosition) {
+	constructor({type = "I-", routeNumber = "1", to = false, bannerType, bannerPosition} = {}) {
 		if (Object.keys(this.types).includes(type)) {
 			this.type = type;
 		} else {
@@ -31,7 +29,30 @@ class Shield {
 	}
 }
 
-Shield.prototype.bannerTypes = ["None", "North", "East", "South", "West", "Jct", "Begin", "End", "Spur", "Alt", "Truck", "Bus", "Byp", "Loop", "Express", "Local", "Inner", "Outer", "Future", "Toll", "City", "To"];
+Shield.prototype.bannerTypes = [
+	"None",
+	"North",
+	"East",
+	"South",
+	"West",
+	"Jct",
+	"Begin",
+	"End",
+	"Spur",
+	"Alt",
+	"Truck",
+	"Bus",
+	"Byp",
+	"Loop",
+	"Express",
+	"Local",
+	"Inner",
+	"Outer",
+	"Future",
+	"Toll",
+	"City",
+	"To"
+];
 Shield.prototype.bannerPositions = ["Above", "Right", "Left"];
 Shield.prototype.types = {
 	"I-" : "I-",

@@ -4,7 +4,6 @@ const app = (function() {
 
 	/**
 	 * Initialize the application.
-	 * @method init
 	 */
 	const init = function() {
 		// Create the post on which to place panels
@@ -47,43 +46,39 @@ const app = (function() {
 		}
 
 		newPanel();
-	}
+	};
 
 	/**
 	 * Create a new panel and add it to the post.
 	 *   Set the currently selected panel for editing to the new panel.
 	 *   Update the form to reflect the new panel.
 	 *   Redraw the page.
-	 * @method newPanel
 	 */
 	const newPanel = function() {
 		post.newPanel();
 		currentlySelectedPanelIndex = post.panels.length - 1;
 		updateForm();
 		redraw();
-	}
+	};
 
 	/**
 	 * Duplicate the currently selected panel.
 	 *   Set the currently selected panel for editing to the newly duplicated panel.
 	 *   Update the form to reflect the new panel.
 	 *   Redraw the page.
-	 * @method duplicatePanel
 	 */
 	const duplicatePanel = function() {
 		post.duplicatePanel(currentlySelectedPanelIndex);
 		currentlySelectedPanelIndex++;
 		updateForm();
 		redraw();
-	}
+	};
 
 	/**
 	 * Delete the currently selected panel.
-	 *   Set the currently selected panel for editing to the panel ahead of the
-	 *     deleted panel.
+	 *   Set the currently selected panel for editing to the panel ahead of the deleted panel.
 	 *   Update the form to reflect the newly selected panel.
 	 *   Redraw the page.
-	 * @method deletePanel
 	 */
 	const deletePanel = function() {
 		post.deletePanel(currentlySelectedPanelIndex);
@@ -96,70 +91,64 @@ const app = (function() {
 			updateForm();
 			redraw();
 		}
-	}
+	};
 
 	/**
 	 * Shift the currently selected panel left.
 	 *   Set the currently selected panel for editing to the new index.
 	 *   Redraw the page.
-	 * @method shiftLeft
 	 */
 	const shiftLeft = function() {
 		currentlySelectedPanelIndex = post.shiftLeft(currentlySelectedPanelIndex);
 		document.getElementById("panelEditing").selectedIndex = currentlySelectedPanelIndex;
 		redraw();
-	}
+	};
 
 	/**
 	 * Shift the currently selected panel right.
 	 *   Set the currently selected panel for editing to the new index.
 	 *   Redraw the page.
-	 * @method shiftRight
 	 */
 	const shiftRight = function() {
 		currentlySelectedPanelIndex = post.shiftRight(currentlySelectedPanelIndex);
 		document.getElementById("panelEditing").selectedIndex = currentlySelectedPanelIndex;
 		redraw();
-	}
+	};
 
 	/**
 	 * Change the current panel being edited.
 	 *   Update the form to reflect the newly selected panel.
-	 * @method changeEditingPanel
 	 */
 	const changeEditingPanel = function() {
 		currentlySelectedPanelIndex = Number(document.getElementById("panelEditing").value);
 		updateForm();
-	}
+	};
 
 	/**
 	 * Add a new shield to the current panel's sign.
 	 *   Update the shield subform with the new shield.
-	 * @method newShield
 	 */
 	const newShield = function() {
 		const sign = post.panels[currentlySelectedPanelIndex].sign;
 		sign.newShield();
 		updateShieldSubform();
 		redraw();
-	}
+	};
 
 	/**
 	 * Delete a shield to the current panel's sign.
 	 *   Update the shield subform with the new shield.
-	 * @method newShield
 	 */
 	const deleteShield = function() {
 		const sign = post.panels[currentlySelectedPanelIndex].sign;
 		sign.deleteShield(this.dataset.shieldIndex);
 		updateShieldSubform();
 		redraw();
-	}
+	};
 
 	/**
 	 * Read the form and update the currently selected panel with the new values.
 	 *   Redraw the page.
-	 * @method readForm
 	 */
 	const readForm = function() {
 		const form = document.forms[0];
@@ -199,12 +188,10 @@ const app = (function() {
 		}
 
 		redraw();
-	}
+	};
 
 	/**
-	 * Update the fields in the form to the values of the currently selected
-	 *   panel.
-	 * @method updateForm
+	 * Update the fields in the form to the values of the currently selected panel.
 	 */
 	const updateForm = function() {
 		const editingPanelSelectElmt = document.getElementById("panelEditing");
@@ -276,12 +263,10 @@ const app = (function() {
 			actionMessageElmt.style.display = "none";
 		}
 		actionMessageElmt.value = panel.sign.actionMessage;
-	}
+	};
 
 	/**
-	 * Update the fields in the form relating to shields to the values of the
-	 *   currently selected panel.
-	 * @method updateShieldSubform
+	 * Update the fields in the form relating to shields to the values of the currently selected panel.
 	 */
 	const updateShieldSubform = function() {
 		const shieldsContainerElmt = document.getElementById("shields");
@@ -349,11 +334,10 @@ const app = (function() {
 
 			shieldsContainerElmt.appendChild(rowContainerElmt);
 		}
-	}
+	};
 
 	/**
 	 * Redraw the panels on the post.
-	 * @method redraw
 	 */
 	const redraw = function() {
 		const postContainerElmt = document.getElementById("postContainer");
@@ -929,7 +913,7 @@ const app = (function() {
 				}
 			}
 		}
-	}
+	};
 
 	return {
 		init : init,
