@@ -367,3 +367,7 @@
 .arrow:first-child {
 	margin-left: 0.05rem;
 }
+
+.numeral {
+	font-size: 1.2em;
+}

@@ -12,7 +12,7 @@ class Sign {
 	 * 					sign, if any.
 	 * @param  {number} [guideArrowLanes=0] Number of lanes actoss to display
 	 * 					guide arrows.
-	 * @param  {string} [customText=""] Custom subtext to display on the sign.
+	 * @param  {string} [actionMessage=""] Custom subtext to display on the sign.
 	 */
 	constructor(
 		controlText="",
@@ -20,17 +20,17 @@ class Sign {
 		shieldBacks=false,
 		guideArrow=null,
 		guideArrowLanes=1,
-		customText="",
+		actionMessage="",
 		shields=[]
 	) {
 		this.controlText = controlText;
-		if (Object.keys(this.shieldPositions).includes(shieldPosition)) {
+		if (this.shieldPositions.includes(shieldPosition)) {
 			this.shieldPosition = shieldPosition;
 		} else {
 			this.shieldPosition = "Above";
 		}
 		this.shieldBacks = shieldBacks;
-		if (Object.keys(this.guideArrows).includes(guideArrow)) {
+		if (this.guideArrows.includes(guideArrow)) {
 			this.guideArrow = guideArrow;
 		} else {
 			this.guideArrow = "None";
@@ -40,7 +40,7 @@ class Sign {
 		} else {
 			this.guideArrowLanes = 0;
 		}
-		this.customText = customText;
+		this.actionMessage = actionMessage;
 		this.shields = shields;
 	}
 
@@ -79,5 +79,5 @@ Sign.prototype.guideArrows = [
 	"Right/Up Arrow",
 	"Down Arrow",
 	"Up Arrow",
-	"Custom Text"
+	"Action Message"
 ];

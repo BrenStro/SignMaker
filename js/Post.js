@@ -51,7 +51,7 @@ class Post {
 			existingPanel.sign.sheildBacks,
 			existingPanel.sign.guideArrow,
 			existingPanel.sign.guideArrowLanes,
-			existingPanel.sign.customText,
+			existingPanel.sign.actionMessage,
 			newShields
 		);
 		let newExitTab = Object.assign(new ExitTab(), existingPanel.exitTab);

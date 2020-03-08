@@ -43,7 +43,7 @@ const app = (function() {
 		// Populate the guide arrow options
 		const guideArrowSelectElmt = document.getElementById("guideArrow");
 		for (const guideArrow of Sign.prototype.guideArrows) {
-			lib.appendOption(guideArrowSelectElmt, guideArrow, {selected : false});
+			lib.appendOption(guideArrowSelectElmt, guideArrow);
 		}
 
 		newPanel();
@@ -179,7 +179,7 @@ const app = (function() {
 		panel.sign.shieldPosition = form["shieldsPosition"].value;
 		panel.sign.guideArrow = form["guideArrow"].value;
 		panel.sign.guideArrowLanes = form["guideArrowLanes"].value;
-		panel.sign.customText = form["customText"].value;
+		panel.sign.actionMessage = form["actionMessage"].value;
 
 		// Shileds
 		panel.sign.shieldBacks = form["shieldBacks"].checked;
@@ -189,6 +189,13 @@ const app = (function() {
 			panel.sign.shields[shieldIndex].to = document.getElementById(`shield${shieldIndex}_to`).checked;
 			panel.sign.shields[shieldIndex].bannerType = document.getElementById(`shield${shieldIndex}_bannerType`).value;
 			panel.sign.shields[shieldIndex].bannerPosition = document.getElementById(`shield${shieldIndex}_bannerPosition`).value;
+		}
+
+		// Action Message
+		if (panel.sign.guideArrow == "Action Message") {
+			form["actionMessage"].style.display = "block";
+		} else {
+			form["actionMessage"].style.display = "none";
 		}
 
 		redraw();
@@ -262,8 +269,13 @@ const app = (function() {
 		const guideArrowLanesElmt = document.getElementById("guideArrowLanes");
 		guideArrowLanesElmt.value = panel.sign.guideArrowLanes;
 
-		const customTextElmt = document.getElementById("customText");
-		customTextElmt.value = panel.sign.customText;
+		const actionMessageElmt = document.getElementById("actionMessage");
+		if (panel.sign.guideArrow == "Action Message") {
+			actionMessageElmt.style.display = "block";
+		} else {
+			actionMessageElmt.style.display = "none";
+		}
+		actionMessageElmt.value = panel.sign.actionMessage;
 	}
 
 	/**
@@ -870,12 +882,16 @@ const app = (function() {
 						}
 					}
 				} else {
-					guideArrowsElmt.style.backgroundColor = signElmt.style.backgroundColor;
-					guideArrowsElmt.style.borderColor = signElmt.style.borderColor;
-					guideArrowsElmt.style.color = signElmt.style.color;
-
-					if (panel.sign.guideArrow == "Custom Text") {
-						guideArrowsElmt.appendChild(document.createTextNode(panel.sign.customText));
+					if (panel.sign.guideArrow == "Action Message") {
+						const txtArr = panel.sign.actionMessage.split(/(\d+)/);
+						guideArrowsElmt.appendChild(document.createTextNode(txtArr[0]));
+						if (txtArr.length > 1) {
+							const spanElmt = document.createElement("span");
+							spanElmt.className = "numeral";
+							spanElmt.appendChild(document.createTextNode(txtArr[1]));
+							guideArrowsElmt.appendChild(spanElmt);
+							guideArrowsElmt.appendChild(document.createTextNode(txtArr.slice(2).join()));
+						}
 					} else {
 						if (panel.sign.guideArrow == "Down Arrow" || panel.sign.guideArrow == "Up Arrow") {
 							guideArrowsElmt.style.fontFamily = "Arrows Two";
