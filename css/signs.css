@@ -1,0 +1,369 @@
+#postContainer {
+	display: flex;
+	flex-direction: row;
+	height: 30rem;
+	border: solid rgba(255,255,255,0.25) 1px;
+}
+#postContainer.polePositionOverhead .post {
+	visibility: visible;
+}
+#postContainer.polePositionLeft .post:last-child,
+#postContainer.polePositionRight .post:first-child,
+#postContainer.polePositionRural .post,
+#postContainer.polePositionCenter .post {
+	visibility: hidden;
+}
+
+#postContainer.polePositionLeft #panelContainer,
+#postContainer.polePositionRight #panelContainer,
+#postContainer.polePositionOverhead #panelContainer {
+	background: linear-gradient(
+		180deg,
+		rgba(255,255,255,0) 0%,
+		rgba(255,255,255,0) 45%,
+		rgba(191,191,191,1) 45%,
+		rgba(240,240,240,1) 47%,
+		rgba(128,128,128,1) 50%,
+		rgba(255,255,255,0) 50%,
+		rgba(255,255,255,0) 60%,
+		rgba(191,191,191,1) 60%,
+		rgba(240,240,240,1) 62%,
+		rgba(128,128,128,1) 65%,
+		rgba(255,255,255,0) 65%
+	);
+	height: 15rem;
+}
+#postContainer.polePositionRural #panelContainer {
+	background: linear-gradient(
+		90deg,
+		rgba(255,255,255,0) 0%,
+		rgba(255,255,255,0) 20%,
+		rgba(191,191,191,1) 20%,
+		rgba(240,240,240,1) 22%,
+		rgba(128,128,128,1) 25%,
+		rgba(255,255,255,0) 25%,
+		rgba(255,255,255,0) 75%,
+		rgba(191,191,191,1) 75%,
+		rgba(240,240,240,1) 77%,
+		rgba(128,128,128,1) 80%,
+		rgba(255,255,255,0) 80%
+	);
+	margin-top: 20rem;
+}
+#postContainer.polePositionCenter #panelContainer {
+	background: linear-gradient(
+		90deg,
+		rgba(255,255,255,0) 0%,
+		rgba(255,255,255,0) 45%,
+		rgba(191,191,191,1) 45%,
+		rgba(240,240,240,1) 49%,
+		rgba(128,128,128,1) 55%,
+		rgba(255,255,255,0) 55%
+	);
+	margin-top: 7.5rem;
+}
+
+.post {
+	background: linear-gradient(
+		90deg,
+		rgb(191, 191, 191) 0%,
+		rgb(240, 240, 240) 40%,
+		rgb(128, 128, 128) 100%
+	);
+	width: 1rem;
+	height: 24rem;
+
+	align-self: flex-end;
+}
+.post:first-child {
+	margin-left: auto;
+}
+.post:last-child {
+	margin-right: auto;
+}
+
+#panelContainer {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+		width: -moz-max-content;
+		width: -webkit-max-content;
+	width: intrinsic;
+}
+
+.panel {
+	text-align: center;
+
+	display: block;
+	padding: 0 0.5rem;
+
+	position: relative;
+}
+.panel:first-child {
+	padding-left: 1rem;
+}
+.panel:last-child {
+	padding-right: 1rem;
+}
+#postContainer.polePositionRural .panel {
+	margin-top: -10rem;
+}
+#postContainer.polePositionCenter .panel {
+	margin-top: -22.5rem;
+}
+#postContainer.polePositionRural .panel:not(:first-child),
+#postContainer.polePositionCenter .panel:not(:first-child) {
+	display: none;
+}
+
+.panel.green .exitTab,
+.panel.blue .exitTab,
+.panel.brown .exitTab,
+.panel.black .exitTab,
+.panel.green .sign,
+.panel.blue .sign,
+.panel.brown .sign,
+.panel.black .sign,
+.panel.green .guideArrows,
+.panel.blue .guideArrows,
+.panel.brown .guideArrows,
+.panel.black .guideArrows {
+	color: var(--white);
+	border-color: var(--white);
+}
+.panel.white .exitTab,
+.panel.yellow .exitTab,
+.panel.white .sign,
+.panel.yellow .sign,
+.panel.white .guideArrows,
+.pabel.yellow .guideArrows {
+	color: var(--black);
+	border-color: var(--black);
+}
+
+.panel.green .exitTab,
+.panel.green .sign,
+.panel.green .guideArrows {
+	background-color: var(--green);
+}
+.panel.blue .exitTab,
+.panel.blue .sign,
+.panel.blue .guideArrows {
+	background-color: var(--blue);
+}
+.panel.brown .exitTab,
+.panel.brown .sign,
+.panel.brown .guideArrows {
+	background-color: var(--brown);
+}
+.panel.yellow .exitTab,
+.panel.yellow .sign,
+.panel.yellow .guideArrows {
+	background-color: var(--yellow);
+}
+.panel.white .exitTab,
+.panel.white .sign,
+.panel.white .guideArrows {
+	background-color: var(--white);
+}
+.panel.black .exitTab,
+.panel.black .sign,
+.panel.black .guideArrows {
+	background-color: var(--black);
+}
+
+.exitTab {
+	border-radius: 0.35rem 0.35rem 0 0;
+	border-top-style: solid;
+	border-top-width: 0.15rem;
+	border-right-style: solid;
+	border-right-width: 0.15rem;
+	border-bottom: none;
+	border-left-style: solid;
+	border-left-width: 0.15rem;
+
+	font-size: 0.8rem;
+
+	visibility: hidden; /* hides exitTab by default when loading page */
+	float: none;
+	margin-right: 1rem;	/* 1rem margin keeps the edge of the tab from going above the */
+	margin-left: 1rem;	/* curved corners of the panel below */
+	padding: 0 0.5rem 0rem 0.5rem;
+}
+.exitTab.wide {
+	display: block;
+}
+.exitTab.narrow {
+	display: inline;
+}
+.exitTab.wide, .exitTab.narrow.center {
+	float: none;
+	padding-top: 0.125rem;
+	padding-bottom: 0.0625rem;
+}
+.exitTab.narrow.left {
+	float: left;
+}
+.exitTab.narrow.right {
+	float: right;
+}
+
+.sign {
+	border-radius: 1rem;
+	border-style: solid;
+	border-width: 0.2rem;
+
+	display: flex;
+	clear: both;
+	flex-direction: row;
+}
+
+.sideLeftArrow, .sideRightArrow {
+	font-family: "Arrows One";
+	font-size: 5rem; /* Makes arrows large and visble */
+	line-height: 0.1rem; /* Makes space text (arrow) takes up minimal */
+
+	display: none;
+	margin-top: auto;
+	margin-bottom: auto;
+}
+
+.sideLeftArrow {
+	padding: 0 0.1rem 3rem 0.75rem; /* Patting bumped up on the bottom to bump arrow up from the bottom edge */
+}
+
+.sideRightArrow {
+	padding: 0 0.75rem 3rem 0.1rem; /* Patting bumped up on the bottom to bump arrow up from the bottom edge */
+}
+
+.signContentContainer {
+	display: flex;
+	width: 100%;
+	padding: 0.5rem 0.75rem 0.5rem 0.75rem;
+}
+.signContentContainer.shieldPositionLeft {
+	flex-direction: row;
+}
+.signContentContainer.shieldPositionAbove {
+	flex-direction: column;
+}
+.signContentContainer.shieldPositionRight {
+	flex-direction: row-reverse;
+}
+
+.shieldsContainer {
+	text-align: center;
+	display: flex;
+	flex-direction: row;
+}
+
+.to {
+	display: none;
+	margin: auto 0 auto auto;
+	padding-left: 0.25rem;
+}
+
+.bannerShieldContainer {
+	display: flex;
+	flex-direction: column;
+	margin-right: auto;
+	margin-left: auto;
+	padding: 0.1rem;
+}
+.bannerShieldContainer.bannerPositionLeft {
+	flex-direction: row;
+}
+.bannerShieldContainer.bannerPositionAbove {
+	flex-direction: column;
+}
+.bannerShieldContainer.bannerPositionRight {
+	flex-direction: row-reverse;
+}
+
+.banner {
+	border-radius: 0.1rem;
+
+	font-size: 1rem;
+	text-transform: uppercase;
+
+	margin-bottom: auto;
+	padding: 0.1rem 0.5rem 0.1rem 0.5rem;
+}
+.banner::first-letter {
+	font-size: 1.2em;
+}
+
+.shield {
+	margin: 0.15rem;
+	position: relative;
+}
+
+.shieldImg {
+	width: 3.12rem;
+	height: 2.5rem;
+}
+
+.routeNumber {
+	font-size: 1.5rem;
+
+	width: 100%;
+
+	position: absolute;
+}
+
+.controlText {
+	font-family: "Series rem";
+	font-size: 1.2rem;
+}
+
+.guideArrows {
+	border-style: solid;
+	border-width: 0.2rem;
+	border-top-width: 0;
+	border-radius: 0 0 1rem 1rem;
+
+	display: none;
+	padding: 0 0.25rem 0.25rem 0.25rem;
+}
+.guideArrows.exit_only {
+	background-color: var(--yellow) !important;
+	border-color: var(--black) !important;
+	color: var(--black) !important;
+}
+
+.exitOnlyArrow {
+	font-family: "Arrows Two";
+	font-size: 4rem; /* Makes arrows large and visble */
+	line-height: 0; /* Makes space text (arrow) takes up minimal */
+
+	display: inline-block;
+	margin-top: -0.25rem;
+}
+
+.exitOnlyText {
+	margin: 0 1rem;
+}
+
+.rotate180 {
+	position: absolute;
+	top: 3rem;
+	left: -0.05rem;
+
+		-moz-transform: rotate(180deg);
+		-o-transform: rotate(180deg);
+		-webkit-transform: rotate(180deg);
+	transform: rotate(180deg);
+}
+
+.arrow {
+	font-size: 4rem; /* Makes arrows large and visble */
+	line-height: 0; /* Makes space text (arrow) takes up minimal */
+
+	display: inline-block;
+	margin: -0.5rem 0.05rem 0.05rem 5rem;
+	padding: 0 0.1rem 0 0.05rem;
+}
+
+.arrow:first-child {
+	margin-left: 0.05rem;
+}

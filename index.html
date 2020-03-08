@@ -7,7 +7,9 @@
 		<meta name="author" content="Brendon Strowe" />
 		<meta name="description" content="US Big Green Sign (BGS) Maker 2.0." />
 
-		<link href="css/style.css" rel="stylesheet" type="text/css" />
+		<link href="css/page.css" rel="stylesheet" type="text/css" />
+		<link href="css/signs.css" rel="stylesheet" type="text/css" />
+		<link href="css/shields.css" rel="stylesheet" type="text/css" />
 		<link href="css/form.css" rel="stylesheet" type="text/css" />
 
 		<script src="js/lib.js" type="text/javascript" ></script>
@@ -26,7 +28,11 @@
 		</header>
 
 		<main>
-			<div id="panels">
+			<div id="postContainer">
+				<div class="post"></div>
+				<div id="panelContainer">
+				</div>
+				<div class="post"></div>
 			</div>
 
 			<form name="signMaker">
@@ -37,6 +43,11 @@
 				<input type="button" value="Delete" onClick="app.deletePanel();" />
 				<input type="button" value="<<" onClick="app.shiftLeft();" class="shiftButton" />
 				<input type="button" value=">>" onClick="app.shiftRight();" class="shiftButton" />
+				<br />
+				<!-- Post Position -->
+				<label for="postPosition">Post Position</label>
+				<select id="postPosition" onChange="app.readForm();">
+				</select>
 				<br />
 				<!-- Panel Choice -->
 				<label for="panelEditing">Editing Panel:</label>

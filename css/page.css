@@ -99,6 +99,7 @@
 	--blue: rgb(0, 67, 123);
 	--brown: rgb(98, 51, 30);
 	--yellow: rgb(255, 178, 0);
+	--countyYellow: rgb(247,209,23);
 	--white: rgb(255, 255, 255);
 	--black: rgb(0, 0, 0);
 }
@@ -122,12 +123,6 @@ body {
 	font-family: "Series E";
 }
 
-h1, h2 {
-	text-align: center;
-	margin-top: 0.25em;
-	margin-bottom: 0.75em;
-}
-
 footer {
 	border-top: solid rgba(255, 255, 255, 0.25) 0.25rem;
 
@@ -149,194 +144,27 @@ footer a {
 
 	transition: background-color 0.5s;
 }
-a:hover {
+footer a:hover {
 	background-color: rgba(255, 255, 255, 0.75);
+}
+
+h1, h2 {
+	text-align: center;
+	margin-top: 0.25em;
+	margin-bottom: 0.75em;
 }
 
 p {
 	margin: 0;
 }
-
-#panels {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-		width: -moz-max-content;
-		width: -webkit-max-content;
-	width: intrinsic;
-	min-height: 10rem;
-	margin: auto;
 }
 
-.panel {
-	text-align: center;
-
-	display: block;
-	padding: 1rem;
-
-	position: relative;
+.left {
+	text-align: left;
 }
-
-.exitTab, .sign {
-	/* Default exit tab and panel are green background color with white text */
-	background-color: var(--green);
-
-	color: var(--white);
+.center {
 	text-align: center;
 }
-
-.exitTab {
-	border-top: var(--white) solid 0.15rem;
-	border-right: var(--white) solid 0.15rem;
-	border-bottom: none;
-	border-left: var(--white) solid 0.15rem;
-	border-radius: 0.35rem 0.35rem 0 0;
-
-	display: none; /* hides exitTab by default when loading page */
-	float: none;
-	margin-right: 1rem;	/* 1rem margin keeps the edge of the tab from going aove the */
-	margin-left: 1rem;	/* curved corners of the panel below */
-	padding: 0 0.5rem 0 0.5rem;
-}
-
-.sign {
-	border: var(--white) solid 0.2rem;
-	border-radius: 1rem;
-
-	display: flex;
-	clear: both;
-	flex-direction: row;
-}
-
-.sideLeftArrow, .sideRightArrow {
-	font-family: "Arrows One";
-	font-size: 5rem; /* Makes arrows large and visble */
-	line-height: 0.1rem; /* Makes space text (arrow) takes up minimal */
-
-	display: none;
-	margin-top: auto;
-	margin-bottom: auto;
-}
-
-.sideLeftArrow {
-	padding: 0 0.1rem 0.5rem 0.1rem; /* Patting bumped up on the bottom to bump arrow up from the bottom edge */
-}
-
-.sideRightArrow {
-	padding: 0 0.3rem 0.5rem 0.1rem; /* Patting bumped up on the bottom to bump arrow up from the bottom edge */
-}
-
-.signContentContainer {
-	display: flex;
-	flex-direction: column;
-	width: 100%;
-	padding: 0.5rem 0.75rem 0.5rem 0.75rem;
-}
-
-.shieldsContainer {
-	text-align: center;
-
-	display: flex;
-	flex-direction: row;
-}
-
-.to {
-	display: none;
-	margin: auto 0 auto auto;
-	padding-left: 0.25rem;
-}
-
-.bannerShieldContainer {
-	display: flex;
-	flex-direction: column;
-	margin-right: auto;
-	margin-left: auto;
-	padding: 0.1rem;
-}
-
-.banner {
-	border-radius: 0.1rem;
-
-	font-size: 0.9rem;
-
-	margin-bottom: auto;
-	padding: 0.1rem 0.5rem 0.1rem 0.5rem;
-}
-
-.shield {
-	margin: 0.15rem;
-	position: relative;
-}
-
-.shieldImg {
-	width: 3.12rem;
-	height: 2.5rem;
-}
-
-.routeNumber {
-	font-size: 1.5rem;
-	font-family: "Series D";
-
-	width: 100%;
-
-	position: absolute;
-	top: 1.5rem;
-}
-
-.controlText {
-	font-family: "Series rem";
-	font-size: 1.25rem;
-}
-
-.guideArrows {
-	background-color: var(--yellow);
-	border: var(--black) solid 0.2rem;
-	border-top-width: 0;
-	border-radius: 0 0 1rem 1rem;
-
-	color: var(--black);
-	text-align: center;
-
-	display: none;
-	padding: 0 0.25rem 0.25rem 0.25rem;
-
-	position: relative;
-}
-
-.exitOnlyArrow {
-	font-family: "Arrows Two";
-	font-size: 4rem; /* Makes arrows large and visble */
-	line-height: 0; /* Makes space text (arrow) takes up minimal */
-
-	margin-top: -0.05rem;
-}
-
-.exitOnlyText {
-	margin: 0 1.5rem;
-}
-
-.rotate180 {
-	position: absolute;
-	top: 3rem;
-	left: -0.05rem;
-
-		-moz-transform: rotate(180deg);
-		-o-transform: rotate(180deg);
-		-webkit-transform: rotate(180deg);
-	transform: rotate(180deg);
-}
-
-.arrow {
-	font-size: 4rem; /* Makes arrows large and visble */
-	line-height: 0; /* Makes space text (arrow) takes up minimal */
-
-	display: inline-block;
-	margin: -0.5rem 0.05rem 0.05rem 5rem;
-	padding: 0 0.1rem 0 0.05rem;
-
-	position: relative;
-}
-
-.arrow:first-child {
-	margin-left: 0.05rem;
+.right {
+	text-align: right;
 }

@@ -344,22 +344,18 @@ const app = (function() {
 	 * @method redraw
 	 */
 	const redraw = function() {
-		const postElmt = document.getElementById("panels");
-		if (["Left", "Right", "Overhead"].includes(post.polePosition)) {
-			postElmt.className = "overhead";
-		} else {
-			postElmt.className = post.polePosition.toLowerCase();
-		}
-		lib.clearChildren(postElmt);
+		const postContainerElmt = document.getElementById("postContainer");
+		postContainerElmt.className = `polePosition${post.polePosition}`;
+
+		const panelContainerElmt = document.getElementById("panelContainer");		
+		
+		lib.clearChildren(panelContainerElmt);
 		for (const panel of post.panels) {
 			const panelElmt = document.createElement("div");
-			panelElmt.className = "panel";
-			if (post.polePosition == "Rural") {
-				panelElmt.className += " rural";
-			}
+			panelElmt.className = `panel ${panel.color.toLowerCase()}`;
 
 			const exitTabElmt = document.createElement("div");
-			exitTabElmt.className = "exitTab";
+			exitTabElmt.className = `exitTab ${panel.exitTab.position.toLowerCase()} ${panel.exitTab.width.toLowerCase()}`;
 			panelElmt.appendChild(exitTabElmt);
 
 			const signElmt = document.createElement("div");
@@ -372,11 +368,11 @@ const app = (function() {
 			signElmt.appendChild(sideLeftArrowElmt);
 
 			const signContentContainerElmt = document.createElement("div");
-			signContentContainerElmt.className = "signContentContainer";
+			signContentContainerElmt.className = `signContentContainer shieldPosition${panel.sign.shieldPosition}`;
 			signElmt.appendChild(signContentContainerElmt);
 
 			const shieldsContainerElmt = document.createElement("div");
-			shieldsContainerElmt.className = "shieldsContainer";
+			shieldsContainerElmt.className = `shieldsContainer ${panel.sign.shieldBacks ? "shieldBacks" : ""}`;
 			signContentContainerElmt.appendChild(shieldsContainerElmt);
 
 			const controlTextElmt = document.createElement("p");
@@ -389,57 +385,33 @@ const app = (function() {
 			signElmt.appendChild(sideRightArrowElmt);
 
 			const guideArrowsElmt = document.createElement("div");
-			guideArrowsElmt.className = "guideArrows";
+			guideArrowsElmt.className = `guideArrows ${panel.sign.guideArrow.replace("/", "-").replace(" ", "_").toLowerCase()}`;
 			panelElmt.appendChild(guideArrowsElmt);
 
-			postElmt.appendChild(panelElmt);
-
-			// Panel Color
-			exitTabElmt.style.backgroundColor = lib.colors[panel.color];
-			signElmt.style.backgroundColor = lib.colors[panel.color];
-			if (panel.color == "Green" || panel.color == "Blue" || panel.color == "Brown" || panel.color == "Black") {
-				exitTabElmt.style.borderColor = lib.colors["White"];
-				signElmt.style.borderColor = lib.colors["White"];
-				exitTabElmt.style.color = lib.colors["White"];
-				signElmt.style.color = lib.colors["White"];
-			} else {
-				exitTabElmt.style.borderColor = lib.colors["Black"];
-				signElmt.style.borderColor = lib.colors["Black"];
-				exitTabElmt.style.color = lib.colors["Black"];
-				signElmt.style.color = lib.colors["Black"];
-			}
-
-			// Position of shields
-			//   Flow the contents of the sign (sheild and control cities)
-			//   based on position wanted for the shield
-			//   (Left is 'row', Center is 'Above', Right is 'row-reverse')
-			signContentContainerElmt.style.flexDirection = lib.shieldPositions[panel.sign.shieldPosition];
+			panelContainerElmt.appendChild(panelElmt);
 
 			// Exit tab
-			if (!panel.exitTab.number) {
-				exitTabElmt.style.display = "none";
-			} else {
-				// Remove and re-add exitTabElmt text
-				lib.clearChildren(exitTabElmt);
-				exitTabElmt.appendChild(document.createTextNode(panel.exitTab.number.toUpperCase()));
-
-				exitTabElmt.style.textAlign = panel.exitTab.position;
-
-				if (panel.exitTab.width == "Wide") {
-					exitTabElmt.style.display = "block";
-					exitTabElmt.style.float = "none";
-				} else {
-					exitTabElmt.style.display = "inline";
-					if (panel.exitTab.position == "Center") {
-						exitTabElmt.style.float = "none";
-					} else {
-						exitTabElmt.style.float = panel.exitTab.position;
-					}
+			if (panel.exitTab.number) {
+				const txtArr = panel.exitTab.number.toUpperCase().split(/(\d+)/);
+				exitTabElmt.appendChild(document.createTextNode(txtArr[0]));
+				if (txtArr.length > 1) {
+					const spanElmt = document.createElement("span");
+					spanElmt.className = "numeral";
+					spanElmt.appendChild(document.createTextNode(txtArr[1]));
+					exitTabElmt.appendChild(spanElmt);
+					exitTabElmt.appendChild(document.createTextNode(txtArr.slice(2).join()));
 				}
+				exitTabElmt.style.visibility = "visible";
 			}
 
 			// Shields
-			lib.clearChildren(shieldsContainerElmt);
+			let hasBanner = false;
+			for (const shield of panel.sign.shields) {
+				if (shield.bannerType != "None") {
+					hasBanner = true;
+					break;
+				}
+			}
 			for (const shield of panel.sign.shields) {
 				const toElmt = document.createElement("p");
 				toElmt.className = "to";
@@ -447,7 +419,21 @@ const app = (function() {
 				shieldsContainerElmt.appendChild(toElmt);
 
 				const bannerShieldContainerElmt = document.createElement("div");
-				bannerShieldContainerElmt.className = "bannerShieldContainer";
+				bannerShieldContainerElmt.className = `bannerShieldContainer ${shield.type} ${shield.bannerType.toLowerCase()} bannerPosition${shield.bannerPosition}`;
+				switch (shield.routeNumber.length) {
+					case 1:
+						bannerShieldContainerElmt.className += " one";
+						break;
+					case 2:
+						bannerShieldContainerElmt.className += " two";
+						break;
+					case 3:
+						bannerShieldContainerElmt.className += " three";
+						break;
+					default:
+						bannerShieldContainerElmt.className += " three";
+						break;
+				}
 				shieldsContainerElmt.appendChild(bannerShieldContainerElmt);
 
 				const bannerElmt = document.createElement("p");
@@ -480,710 +466,363 @@ const app = (function() {
 				} else {
 					imgDir = "img/shields-without-backs/";
 				}
-
+				
 				// Shield type
 				if (shield.type === "I-") {
 					if (shield.routeNumber.length <= 2) {
 						shieldImgElmt.data = imgDir + "Interstate-2.svg";
-						routeNumberElmt.style.fontFamily = "Series D";
 					} else if (shield.routeNumber.length >= 3) {
 						shieldImgElmt.data = imgDir + "Interstate-3.svg";
-						routeNumberElmt.style.fontFamily = "Series C";
 					}
-					routeNumberElmt.style.color = lib.colors["White"];
-					routeNumberElmt.style.top = "0.17em";
 				} else if (shield.type === "US") {
 					if (shield.routeNumber.length <= 2) {
 						shieldImgElmt.data = imgDir + "US-2.svg";
 					} else if (shield.routeNumber.length >= 3) {
 						shieldImgElmt.data = imgDir + "US-3.svg";
 					}
-					routeNumberElmt.style.fontFamily = "Series D";
-					routeNumberElmt.style.color = lib.colors["Black"];
-					routeNumberElmt.style.top = "0.15em";
 				} else if (shield.type === "cir") {
 					if (shield.routeNumber.length <= 2) {
 						shieldImgElmt.data = imgDir + "Circle-2.svg";
 					} else if (shield.routeNumber.length >= 3) {
 						shieldImgElmt.data = imgDir + "Circle-3.svg";
 					}
-					routeNumberElmt.style.fontFamily = "Series D";
-					routeNumberElmt.style.color = lib.colors["Black"];
-					routeNumberElmt.style.top = "0.15em";
 				} else if (shield.type === "elp") {
 					if (shield.routeNumber.length <= 2) {
 						shieldImgElmt.data = imgDir + "Circle-2.svg";
 					} else if (shield.routeNumber.length >= 3) {
 						shieldImgElmt.data = imgDir + "Ellipse-3.svg";
 					}
-					routeNumberElmt.style.fontFamily = "Series D";
-					routeNumberElmt.style.color = lib.colors["Black"];
-					routeNumberElmt.style.top = "0.15em";
 				} else if (shield.type === "rec") {
 					if (shield.routeNumber.length <= 2) {
 						shieldImgElmt.data = imgDir + "Rectangle-2.svg";
 					} else if (shield.routeNumber.length >= 3) {
 						shieldImgElmt.data = imgDir + "Rectangle-3.svg";
 					}
-					routeNumberElmt.style.fontFamily = "Series D";
-					routeNumberElmt.style.color = lib.colors["Black"];
-					routeNumberElmt.style.top = "0.15em";
 				} else if (shield.type === "rec2") {
 					if (shield.routeNumber.length <= 2) {
 						shieldImgElmt.data = imgDir + "Rectangle2-2.svg";
 					} else if (shield.routeNumber.length >= 3) {
 						shieldImgElmt.data = imgDir + "Rectangle2-3.svg";
 					}
-					routeNumberElmt.style.fontFamily = "Series D";
-					routeNumberElmt.style.color = lib.colors["Black"];
-					routeNumberElmt.style.top = "0.15em";
 				} else if (shield.type === "C-") {
-					if (shield.routeNumber.length <= 2) {
-						routeNumberElmt.style.fontFamily = "Series D";
-					} else if (shield.routeNumber.length >= 3) {
-						routeNumberElmt.style.fontFamily = "Series C";
-					}
 					shieldImgElmt.data = imgDir + "County-2.svg";
-					routeNumberElmt.style.color = "rgb(247,209,23)";
-					routeNumberElmt.style.top = "0.3em";
 				} else if (shield.type === "AL") {
 					if (shield.routeNumber.length <= 2) {
 						shieldImgElmt.data = imgDir + "Alabama-2.svg";
 					} else if (shield.routeNumber.length >= 3) {
 						shieldImgElmt.data = imgDir + "Alabama-3.svg";
 					}
-					routeNumberElmt.style.fontFamily = "Series D";
-					routeNumberElmt.style.color = lib.colors["Black"];
-					routeNumberElmt.style.top = "0em";
 				} else if (shield.type === "AK") {
 					shieldImgElmt.data = imgDir + "Alaska-2.svg";
-					if (shield.routeNumber.length <= 1) {
-						routeNumberElmt.style.fontFamily = "Series D";
-					} else if (shield.routeNumber.length >= 2) {
-						routeNumberElmt.style.fontFamily = "Series C";
-					}
-					routeNumberElmt.style.color = lib.colors["Black"];
-					routeNumberElmt.style.top = "0.1em";
 				} else if (shield.type === "AZ") {
 					if (shield.routeNumber.length <= 2) {
 						shieldImgElmt.data = imgDir + "Arizona-2.svg";
 					} else if (shield.routeNumber.length >= 3) {
 						shieldImgElmt.data = imgDir + "Arizona-3.svg";
 					}
-					routeNumberElmt.style.fontFamily = "Series D";
-					routeNumberElmt.style.color = lib.colors["Black"];
-					routeNumberElmt.style.top = "0.2em";
 				} else if (shield.type === "AR") {
 					if (shield.routeNumber.length <= 2) {
 						shieldImgElmt.data = imgDir + "Arkansas-2.svg";
-						routeNumberElmt.style.fontFamily = "Series D";
 					} else if (shield.routeNumber.length >= 3) {
 						shieldImgElmt.data = imgDir + "Arkansas-3.svg";
 					}
-					if (shield.routeNumber.length >= 2) {
-						routeNumberElmt.style.fontFamily = "Series C";
-					}
-					routeNumberElmt.style.color = lib.colors["Black"];
-					routeNumberElmt.style.top = "0.15em";
 				} else if (shield.type === "CA") {
 					if (shield.routeNumber.length <= 2) {
 						shieldImgElmt.data = imgDir + "California-2.svg";
 					} else if (shield.routeNumber.length >= 3) {
 						shieldImgElmt.data = imgDir + "California-3.svg";
 					}
-					routeNumberElmt.style.fontFamily = "Series D";
-					routeNumberElmt.style.color = lib.colors["White"];
-					routeNumberElmt.style.top = "0.45em";
 				} else if (shield.type === "CO") {
-					if (shield.routeNumber.length <= 2) {
-						routeNumberElmt.style.fontFamily = "Series D";
-					} else if (shield.routeNumber.length >= 3) {
-						routeNumberElmt.style.fontFamily = "Series C";
-					}
 					shieldImgElmt.data = imgDir + "Colorado-2.svg";
-					routeNumberElmt.style.color = lib.colors["Black"];
-					routeNumberElmt.style.top = "0.575em";
 				} else if (shield.type === "DC") {
 					shieldImgElmt.data = imgDir + "WashDC-2.svg";
-					routeNumberElmt.style.color = lib.colors["Black"];
-					routeNumberElmt.style.top = "0.95em";
 				} else if (shield.type === "FL") {
 					if (shield.routeNumber.length <= 2) {
 						shieldImgElmt.data = imgDir + "Florida-2.svg";
-						routeNumberElmt.style.fontFamily = "Series D";
 					} else if (shield.routeNumber.length >= 3) {
 						shieldImgElmt.data = imgDir + "Florida-3.svg";
-						routeNumberElmt.style.fontFamily = "Series C";
 					}
-					routeNumberElmt.style.color = lib.colors["Black"];
-					routeNumberElmt.style.top = "0.3em";
 				} else if (shield.type === "GA") {
 					if (shield.routeNumber.length <= 2) {
 						shieldImgElmt.data = imgDir + "Georgia-2.svg";
-						routeNumberElmt.style.fontFamily = "Series D";
 					} else if (shield.routeNumber.length >= 3) {
 						shieldImgElmt.data = imgDir + "Georgia-3.svg";
-						routeNumberElmt.style.fontFamily = "Series C";
 					}
-					routeNumberElmt.style.color = lib.colors["Black"];
-					routeNumberElmt.style.top = "0.3em";
 				} else if (shield.type === "HI") {
 					shieldImgElmt.data = imgDir + "Hawaii-2.svg";
-					if (shield.routeNumber.length <= 2) {
-						routeNumberElmt.style.fontFamily = "Series D";
-						routeNumberElmt.style.top = "0.3em";
-					} else if (shield.routeNumber.length >= 3) {
-						routeNumberElmt.style.fontFamily = "Series C";
-						routeNumberElmt.style.top = "0.6em";
-					}
-					routeNumberElmt.style.color = lib.colors["Black"];
-
 				} else if (shield.type === "ID") {
 					shieldImgElmt.data = imgDir + "Idaho-2.svg";
-					if (shield.routeNumber.length <= 2) {
-					} else if (shield.routeNumber.length >= 3) {
-						routeNumberElmt.style.fontSize = "1.15em";
-					}
-					routeNumberElmt.style.fontFamily = "Series C";
-					if (panel.sign.shieldBacks) {
-						routeNumberElmt.style.color = lib.colors["White"];
-					} else {
-						routeNumberElmt.style.color = lib.colors["Black"];
-					}
-					routeNumberElmt.style.top = "-0.15em";
 				} else if (shield.type === "IL") {
 					if (shield.routeNumber.length <= 2) {
 						shieldImgElmt.data = imgDir + "Illinois-2.svg";
 					} else if (shield.routeNumber.length >= 3) {
 						shieldImgElmt.data = imgDir + "Illinois-3.svg";
 					}
-					routeNumberElmt.style.fontFamily = "Series D";
-					routeNumberElmt.style.color = lib.colors["Black"];
-					routeNumberElmt.style.top = "0.35em";
 				} else if (shield.type === "IN") {
 					if (shield.routeNumber.length <= 2) {
 						shieldImgElmt.data = imgDir + "Indiana-2.svg";
 					} else if (shield.routeNumber.length >= 3) {
 						shieldImgElmt.data = imgDir + "Indiana-3.svg";
 					}
-					routeNumberElmt.style.fontFamily = "Series D";
-					routeNumberElmt.style.color = lib.colors["Black"];
-					routeNumberElmt.style.top = "0.35em";
 				} else if (shield.type === "KS") {
 					if (shield.routeNumber.length <= 2) {
 						shieldImgElmt.data = imgDir + "Kansas-2.svg";
 					} else if (shield.routeNumber.length >= 3) {
 						shieldImgElmt.data = imgDir + "Kansas-3.svg";
 					}
-					routeNumberElmt.style.fontFamily = "Series D";
-					routeNumberElmt.style.color = lib.colors["Black"];
-					routeNumberElmt.style.top = "0.15em";
 				} else if (shield.type === "LA") {
 					shieldImgElmt.data = imgDir + "Louisiana-2.svg";
-					routeNumberElmt.style.fontFamily = "Series C";
-					routeNumberElmt.style.color = lib.colors["Black"];
-					routeNumberElmt.style.top = "1em";
 				} else if (shield.type === "MD") {
 					if (shield.routeNumber.length <= 2) {
 						shieldImgElmt.data = imgDir + "Maryland-2.svg";
 					} else if (shield.routeNumber.length >= 3) {
 						shieldImgElmt.data = imgDir + "Maryland-3.svg";
 					}
-					routeNumberElmt.style.fontFamily = "Series D";
-					routeNumberElmt.style.color = lib.colors["Black"];
-					routeNumberElmt.style.top = "0.45em";
 				} else if (shield.type === "MI") {
 					shieldImgElmt.data = imgDir + "Michigan-2.svg";
-					if (shield.routeNumber.length <= 2) {
-						routeNumberElmt.style.fontFamily = "Series D";
-					} else if (shield.routeNumber.length >= 3) {
-						routeNumberElmt.style.fontFamily = "Series C";
-					}
-					routeNumberElmt.style.color = lib.colors["Black"];
-					routeNumberElmt.style.top = "0.5em";
 				} else if (shield.type === "MN") {
 					shieldImgElmt.data = imgDir + "Minnesota-2.svg";
-					routeNumberElmt.style.fontFamily = "Series D";
-					routeNumberElmt.style.color = lib.colors["White"];
-					routeNumberElmt.style.top = "0.55em";
 				} else if (shield.type === "MO") {
 					if (shield.routeNumber.length <= 2) {
 						shieldImgElmt.data = imgDir + "Missouri-2.svg";
-						routeNumberElmt.style.fontFamily = "Series D";
 					} else if (shield.routeNumber.length >= 3) {
 						shieldImgElmt.data = imgDir + "Missouri-3.svg";
-						routeNumberElmt.style.fontFamily = "Series C";
 					}
-					routeNumberElmt.style.color = lib.colors["Black"];
-					routeNumberElmt.style.top = "0.15em";
 				} else if (shield.type === "MT") {
 					if (shield.routeNumber.length <= 2) {
 						shieldImgElmt.data = imgDir + "Montana-2.svg";
 					} else if (shield.routeNumber.length >= 3) {
 						shieldImgElmt.data = imgDir + "Montana-3.svg";
 					}
-					routeNumberElmt.style.fontFamily = "Series D";
-					routeNumberElmt.style.color = lib.colors["Black"];
-					routeNumberElmt.style.top = "0.3em";
 				} else if (shield.type === "MT2") {
 					shieldImgElmt.data = imgDir + "Montana-2-Secondary.svg";
-					routeNumberElmt.style.top = "0.2em";
-					if (shield.routeNumber.length <= 1) {
-						routeNumberElmt.style.fontFamily = "Series D";
-					} else if (shield.routeNumber.length >= 2) {
-						routeNumberElmt.style.fontFamily = "Series C";
-					}
-					if (shield.routeNumber.length >= 3) {
-						routeNumberElmt.style.top = "0.3em";
-					}
-					routeNumberElmt.style.color = lib.colors["Black"];
 				} else if (shield.type === "NE") {
 					if (shield.routeNumber.length <= 2) {
 						shieldImgElmt.data = imgDir + "Nebraska-2.svg";
-						routeNumberElmt.style.fontFamily = "Series D";
 					} else if (shield.routeNumber.length >= 3) {
 						shieldImgElmt.data = imgDir + "Nebraska-3.svg";
-						routeNumberElmt.style.fontFamily = "Series C";
 					}
-					routeNumberElmt.style.color = lib.colors["Black"];
-					routeNumberElmt.style.top = "0.05em";
 				} else if (shield.type === "NV") {
-					routeNumberElmt.style.fontFamily = "Series D";
 					shieldImgElmt.data = imgDir + "Nevada-2.svg";
-					routeNumberElmt.style.color = lib.colors["Black"];
-					routeNumberElmt.style.top = "0.15em";
 				} else if (shield.type === "NH") {
 					shieldImgElmt.data = imgDir + "NewHampshire-2.svg";
-					if (shield.routeNumber.length <= 2) {
-						routeNumberElmt.style.fontFamily = "Series D";
-					} else if (shield.routeNumber.length >= 3) {
-						routeNumberElmt.style.fontFamily = "Series C";
-					}
-					routeNumberElmt.style.color = lib.colors["Black"];
-					routeNumberElmt.style.top = "0.15em";
 				} else if (shield.type === "NM") {
 					shieldImgElmt.data = imgDir + "NewMexico-2.svg";
-					routeNumberElmt.style.fontFamily = "Series D";
-					routeNumberElmt.style.top = "0.15em";
-					if (shield.routeNumber.length == 2) {
-						routeNumberElmt.style.top = "0.4em";
-					} else if (shield.routeNumber.length >= 3) {
-						routeNumberElmt.style.fontFamily = "Series C";
-						routeNumberElmt.style.top = "0.6em";
-					}
-					routeNumberElmt.style.color = lib.colors["Black"];
 				} else if (shield.type === "NY") {
 					if (shield.routeNumber.length <= 2) {
 						shieldImgElmt.data = imgDir + "NewYork-2.svg";
 					} else if (shield.routeNumber.length >= 3) {
 						shieldImgElmt.data = imgDir + "NewYork-3.svg";
 					}
-					routeNumberElmt.style.fontFamily = "Series D";
-					routeNumberElmt.style.color = lib.colors["Black"];
-					routeNumberElmt.style.top = "0.15em";
 				} else if (shield.type === "NC") {
 					shieldImgElmt.data = imgDir + "NorthCarolina-2.svg";
-					if (shield.routeNumber.length <= 2) {
-						routeNumberElmt.style.fontFamily = "Series D";
-					} else if (shield.routeNumber.length >= 3) {
-						routeNumberElmt.style.fontFamily = "Series C";
-					}
-					routeNumberElmt.style.color = lib.colors["Black"];
-					routeNumberElmt.style.top = "0.4em";
 				} else if (shield.type === "ND") {
 					if (shield.routeNumber.length <= 2) {
 						shieldImgElmt.data = imgDir + "NorthDakota-2.svg";
 					} else if (shield.routeNumber.length >= 3) {
 						shieldImgElmt.data = imgDir + "NorthDakota-3.svg";
 					}
-					routeNumberElmt.style.fontFamily = "Series D";
-					routeNumberElmt.style.color = lib.colors["Black"];
-					routeNumberElmt.style.top = "0.25em";
 				} else if (shield.type === "OH") {
 					if (shield.routeNumber.length <= 2) {
 						shieldImgElmt.data = imgDir + "Ohio-2.svg";
 					} else if (shield.routeNumber.length >= 3) {
 						shieldImgElmt.data = imgDir + "Ohio-3.svg";
 					}
-					routeNumberElmt.style.fontFamily = "Series D";
-					routeNumberElmt.style.color = lib.colors["Black"];
-					routeNumberElmt.style.top = "0.15em";
 				} else if (shield.type === "OK") {
 					if (shield.routeNumber.length <= 2) {
 						shieldImgElmt.data = imgDir + "Oklahoma-2.svg";
 					} else if (shield.routeNumber.length >= 3) {
 						shieldImgElmt.data = imgDir + "Oklahoma-3.svg";
 					}
-					routeNumberElmt.style.fontFamily = "Series D";
-					routeNumberElmt.style.color = lib.colors["Black"];
-					routeNumberElmt.style.top = "0.35em";
 				} else if (shield.type === "OR") {
 					if (shield.routeNumber.length <= 2) {
 						shieldImgElmt.data = imgDir + "Oregon-2.svg";
-						routeNumberElmt.style.fontFamily = "Series D";
 					} else if (shield.routeNumber.length >= 3) {
 						shieldImgElmt.data = imgDir + "Oregon-3.svg";
-						routeNumberElmt.style.fontFamily = "Series C";
 					}
-					routeNumberElmt.style.color = lib.colors["Black"];
-					routeNumberElmt.style.top = "0.15em";
 				} else if (shield.type === "PA") {
 					if (shield.routeNumber.length <= 2) {
 						shieldImgElmt.data = imgDir + "Pennsylvania-2.svg";
 					} else if (shield.routeNumber.length >= 3) {
 						shieldImgElmt.data = imgDir + "Pennsylvania-3.svg";
 					}
-					routeNumberElmt.style.fontFamily = "Series D";
-					routeNumberElmt.style.color = lib.colors["Black"];
-					routeNumberElmt.style.top = "0.2em";
 				} else if (shield.type === "RI") {
 					if (shield.routeNumber.length <= 2) {
 						shieldImgElmt.data = imgDir + "RhodeIsland-2.svg";
 					} else if (shield.routeNumber.length >= 3) {
 						shieldImgElmt.data = imgDir + "RhodeIsland-3.svg";
 					}
-					routeNumberElmt.style.fontFamily = "Series D";
-					routeNumberElmt.style.color = lib.colors["Black"];
-					routeNumberElmt.style.top = "0.35em";
 				} else if (shield.type === "SC") {
 					shieldImgElmt.data = imgDir + "SouthCarolina-2.svg";
-					routeNumberElmt.style.fontFamily = "Series D";
-					routeNumberElmt.style.color = lib.colors["Blue"];
-					routeNumberElmt.style.top = "0.4em";
 				} else if (shield.type === "SD") {
 					if (shield.routeNumber.length <= 2) {
 						shieldImgElmt.data = imgDir + "SouthDakota-2.svg";
 					} else if (shield.routeNumber.length >= 3) {
 						shieldImgElmt.data = imgDir + "SouthDakota-3.svg";
 					}
-					routeNumberElmt.style.fontFamily = "Series D";
-					routeNumberElmt.style.color = lib.colors["Black"];
-					routeNumberElmt.style.top = "0.15em";
 				} else if (shield.type === "TN") {
 					shieldImgElmt.data = imgDir + "Tennessee-2.svg";
-					routeNumberElmt.style.fontFamily = "Series D";
-					routeNumberElmt.style.color = lib.colors["Black"];
-					routeNumberElmt.style.top = "0.05em";
 				} else if (shield.type === "TN2") {
 					if (shield.routeNumber.length <= 2) {
 						shieldImgElmt.data = imgDir + "Tennessee-2-Secondary.svg";
-						routeNumberElmt.style.fontFamily = "Series D";
 					} else if (shield.routeNumber.length >= 3) {
 						shieldImgElmt.data = imgDir + "Tennessee-3-Secondary.svg";
-						routeNumberElmt.style.fontFamily = "Series C";
 					}
-					routeNumberElmt.style.color = lib.colors["Black"];
-					routeNumberElmt.style.top = "-0.15em";
 				} else if (shield.type === "TX") {
 					shieldImgElmt.data = imgDir + "Texas-2.svg";
-					if (shield.routeNumber.length <= 2) {
-						routeNumberElmt.style.fontFamily = "Series D";
-					} else if (shield.routeNumber.length >= 3) {
-						routeNumberElmt.style.fontFamily = "Series C";
-					}
-					routeNumberElmt.style.color = lib.colors["Black"];
-					routeNumberElmt.style.top = "-0.05em";
 				} else if (shield.type === "UT") {
 					shieldImgElmt.data = imgDir + "Utah-2.svg";
-					if (shield.routeNumber.length <= 2) {
-						routeNumberElmt.style.fontFamily = "Series D";
-						routeNumberElmt.style.top = "0.4em";
-					} else if (shield.routeNumber.length >= 3) {
-						routeNumberElmt.style.fontFamily = "Series C";
-						routeNumberElmt.style.top = "0.65em";
-					}
-					routeNumberElmt.style.color = lib.colors["Black"];
 				} else if (shield.type === "VT") {
-					routeNumberElmt.style.fontFamily = "Series D";
 					if (shield.routeNumber.length <= 2) {
 						shieldImgElmt.data = imgDir + "Vermont-2.svg";
 					} else if (shield.routeNumber.length >= 3) {
 						shieldImgElmt.data = imgDir + "Vermont-3.svg";
 					}
-					routeNumberElmt.style.color = lib.colors["Green"];
-					routeNumberElmt.style.top = "0.4em";
 				} else if (shield.type === "VA") {
-					routeNumberElmt.style.fontFamily = "Series D";
 					if (shield.routeNumber.length <= 2) {
 						shieldImgElmt.data = imgDir + "Virginia-2.svg";
 					} else if (shield.routeNumber.length >= 3) {
 						shieldImgElmt.data = imgDir + "Virginia-3.svg";
 					}
-					routeNumberElmt.style.color = lib.colors["Black"];
-					routeNumberElmt.style.top = "0em";
 				} else if (shield.type === "VA2") {
 					shieldImgElmt.data = imgDir + "Circle-2.svg";
-					if (shield.routeNumber.length <= 2) {
-						routeNumberElmt.style.fontFamily = "Series D";
-					} else if (shield.routeNumber.length >= 3) {
-						routeNumberElmt.style.fontFamily = "Series C";
-					}
-					routeNumberElmt.style.color = lib.colors["Black"];
-					routeNumberElmt.style.top = "0.15em";
 				} else if (shield.type === "WA") {
 					shieldImgElmt.data = imgDir + "Washington-2.svg";
-					if (shield.routeNumber.length <= 2) {
-						routeNumberElmt.style.fontFamily = "Series D";
-						routeNumberElmt.style.top = "0.1em";
-					} else if (shield.routeNumber.length >= 3) {
-						routeNumberElmt.style.fontFamily = "Series C";
-						routeNumberElmt.style.top = "0.3em";
-					}
-					routeNumberElmt.style.color = lib.colors["Black"];
 				} else if (shield.type === "WI") {
 					shieldImgElmt.data = imgDir + "Wisconsin-2.svg";
-					if (shield.routeNumber.length <= 2) {
-						routeNumberElmt.style.fontFamily = "Series D";
-					} else if (shield.routeNumber.length >= 3) {
-						routeNumberElmt.style.fontFamily = "Series C";
-					}
-					routeNumberElmt.style.top = "0.15em";
-					routeNumberElmt.style.color = lib.colors["Black"];
 				} else if (shield.type === "WY") {
 					shieldImgElmt.data = imgDir + "Wyoming-2.svg";
-					if (shield.routeNumber.length <= 2) {
-						routeNumberElmt.style.fontFamily = "Series D";
-					} else if (shield.routeNumber.length >= 3) {
-						routeNumberElmt.style.fontFamily = "Series C";
-					}
-					routeNumberElmt.style.top = "0.2em";
-					routeNumberElmt.style.color = lib.colors["Black"];
-				}
-
-				// Special cases
-				//   Size
-				if (shield.type === "DC") {
-					routeNumberElmt.style.fontSize = "1em";
-				} else if (shield.type === "C-") {
-					routeNumberElmt.style.fontSize = "1.25em";
-				} else if (shield.type === "HI" && shield.routeNumber.length >= 3) {
-					routeNumberElmt.style.fontSize = "1.15em";
-				} else if (shield.type === "ID" && shield.routeNumber.length >= 3) {
-					routeNumberElmt.style.fontSize = "1.15em";
-				} else if (shield.type === "LA") {
-					routeNumberElmt.style.fontSize = "1em";
-				} else if (shield.type === "MI") {
-					routeNumberElmt.style.fontSize = "1.15em";
-				} else if (shield.type === "MN") {
-					routeNumberElmt.style.fontSize = "1.25em";
-				} else if (shield.type === "MT2" && shield.routeNumber.length >= 3) {
-					routeNumberElmt.style.fontSize = "1.15em";
-				} else if (shield.type === "NV") {
-					routeNumberElmt.style.fontSize = "0.9em";
-				} else if (shield.type === "NM" && shield.routeNumber.length == 2) {
-					routeNumberElmt.style.fontSize = "1.2em";
-				} else if (shield.type === "NM" && shield.routeNumber.length >= 3) {
-					routeNumberElmt.style.fontSize = "1em";
-				} else if (shield.type === "NC") {
-					routeNumberElmt.style.fontSize = "1.15em";
-				} else if (shield.type === "UT" && shield.routeNumber.length <= 2) {
-					routeNumberElmt.style.fontSize = "1.15em";
-				} else if (shield.type === "UT" && shield.routeNumber.length >= 3) {
-					routeNumberElmt.style.fontSize = "1em";
-				} else if (shield.type === "WA" && shield.routeNumber.length <= 2) {
-					routeNumberElmt.style.fontSize = "1.35em";
-				} else if (shield.type === "WA" && shield.routeNumber.length >= 3) {
-					routeNumberElmt.style.fontSize = "1.15em";
-				} else {
-					routeNumberElmt.style.fontSize = "1.5em";
-				}
-
-				//   Position
-				if (shield.type === "AK") {
-					routeNumberElmt.style.textAlign = "right";
-					routeNumberElmt.style.right = "0.25em";
-				} else if (shield.type === "AR") {
-					routeNumberElmt.style.textAlign = "center";
-					routeNumberElmt.style.right = "0.05em";
-				} else if (shield.type === "FL") {
-					routeNumberElmt.style.textAlign = "center";
-					routeNumberElmt.style.right = "0.15em";
-				} else if (shield.type === "ID") {
-					routeNumberElmt.style.textAlign = "right";
-					routeNumberElmt.style.right = "0.3em";
-				} else if (shield.type === "NH" && shield.routeNumber.length >= 3) {
-					routeNumberElmt.style.right = "-0.1em";
-				} else {
-					routeNumberElmt.style.textAlign = "center";
-					routeNumberElmt.style.right = "0";
-				}
-
-				//   Text Outline
-				if (shield.type === "OK") {
-					routeNumberElmt.style.textShadow = "-1px -1px 0 #FFF, 1px -1px 0 #FFF, -1px 1px 0 #FFF, 1px 1px 0 #FFF";
-				} else {
-					routeNumberElmt.style.textShadow = "none";
 				}
 
 				// Route Number
-				lib.clearChildren(routeNumberElmt);
 				routeNumberElmt.appendChild(document.createTextNode(shield.routeNumber));
 
 				// Route banner
-				bannerElmt.style.display = "block";
-				bannerElmt.appendChild(document.createTextNode(shield.bannerType.toUpperCase()));
-				if (shield.bannerType === "Toll") { //special styling for toll banner
-					bannerElmt.style.color = lib.colors["Black"];
-					bannerElmt.style.backgroundColor = lib.colors["Yellow"];
-				} else {
-					if (panel.color === "Green" || panel.color === "Blue" || panel.color === "Brown" || panel.color === "Black") {
-						bannerElmt.style.color = lib.colors["White"];
-					} else {
-						bannerElmt.style.color = lib.colors["Black"];
-					}
-					bannerElmt.style.backgroundColor = "transparent";
+				if (hasBanner && shield.bannerType == "None") {
+					bannerElmt.style.visibility = "hidden";
+				} else if (!hasBanner) {
+					bannerElmt.style.display = "none";
 				}
+				bannerElmt.appendChild(document.createTextNode(shield.bannerType));
 
 				// Special states
-				if (shield.type === "I-" && shield.bannerType === "Bus" && shield.routeNumber.length <= 2) {
-					shieldImgElmt.data = imgDir + "Interstate-2-BUS.svg";
-					bannerElmt.style.display = "none";
+				if (shield.type === "I-" && shield.bannerType === "Bus") {
+					if (shield.routeNumber.length <= 2) {
+						shieldImgElmt.data = imgDir + "Interstate-2-BUS.svg";
+					} else if (shield.routeNumber.length >= 3) {
+						shieldImgElmt.data = imgDir + "Interstate-3-BUS.svg";
+					}
 					// set bannerPosition to "Above" as to avoid display issues
-					shield.bannerPosition = "Above";
-				} else if (shield.type === "I-" && shield.bannerType === "Bus" && shield.routeNumber.length >= 3) {
-					shieldImgElmt.data = imgDir + "Interstate-3-BUS.svg";
-					bannerElmt.style.display = "none";
-					// set bannerPosition to "Above" as to avoid display issues
+					bannerShieldContainerElmt.style.flexDirection = "column";
 					shield.bannerPosition = "Above";
 				} else if (shield.type === "AZ" && shield.bannerType === "Loop" && shield.routeNumber.length >= 3) {
 					shieldImgElmt.data = imgDir + "Arizona-3-LOOP.svg";
-					bannerElmt.style.display = "none";
 					// set bannerPosition to "Above" as to avoid display issues
+					bannerShieldContainerElmt.style.flexDirection = "column";
 					shield.bannerPosition = "Above";
 				} else if (shield.type === "FL" && shield.bannerType === "Toll") {
-					routeNumberElmt.style.fontFamily = "Series C";
-					routeNumberElmt.style.fontSize = "1em";
-					routeNumberElmt.style.top = "0.85em";
 					shieldImgElmt.data = imgDir + "Florida-TOLL.svg";
-					bannerElmt.style.display = "none";
 					// set bannerPosition to "Above" as to avoid display issues
+					bannerShieldContainerElmt.style.flexDirection = "column";
 					shield.bannerPosition = "Above";
-				} else if (shield.type === "GA" && shield.bannerType === "Alt" && shield.routeNumber.length <= 2) {
-					shieldImgElmt.data = imgDir + "Georgia-2-ALT.svg";
-					bannerElmt.style.display = "none";
+				} else if (shield.type === "GA" && shield.bannerType === "Alt") {
+					if (shield.routeNumber.length <= 2) {
+						shieldImgElmt.data = imgDir + "Georgia-2-ALT.svg";
+					} else if (shield.routeNumber.length >= 3) {
+						shieldImgElmt.data = imgDir + "Georgia-3-ALT.svg";
+					}
 					// set bannerPosition to "Above" as to avoid display issues
+					bannerShieldContainerElmt.style.flexDirection = "column";
 					shield.bannerPosition = "Above";
-				} else if (shield.type === "GA" && shield.bannerType === "Alt" && shield.routeNumber.length >= 3) {
-					shieldImgElmt.data = imgDir + "Georgia-3-ALT.svg";
-					bannerElmt.style.display = "none";
+				} else if (shield.type === "GA" && shield.bannerType === "Byp") {
+					if (hield.routeNumber.length <= 2) {
+						shieldImgElmt.data = imgDir + "Georgia-2-BYP.svg";
+					} else if (shield.routeNumber.length >= 3) {
+						shieldImgElmt.data = imgDir + "Georgia-3-BYP.svg";
+					}
 					// set bannerPosition to "Above" as to avoid display issues
+					bannerShieldContainerElmt.style.flexDirection = "column";
 					shield.bannerPosition = "Above";
-				} else if (shield.type === "GA" && shield.bannerType === "Byp" && shield.routeNumber.length <= 2) {
-					shieldImgElmt.data = imgDir + "Georgia-2-BYP.svg";
-					bannerElmt.style.display = "none";
+				} else if (shield.type === "GA" && shield.bannerType === "Conn") {
+					if (shield.routeNumber.length <= 2) {
+						shieldImgElmt.data = imgDir + "Georgia-2-CONN.svg";
+					} else if (shield.routeNumber.length >= 3) {
+						shieldImgElmt.data = imgDir + "Georgia-3-CONN.svg";
+					}
 					// set bannerPosition to "Above" as to avoid display issues
+					bannerShieldContainerElmt.style.flexDirection = "column";
 					shield.bannerPosition = "Above";
-				} else if (shield.type === "GA" && shield.bannerType === "Byp" && shield.routeNumber.length >= 3) {
-					shieldImgElmt.data = imgDir + "Georgia-3-BYP.svg";
-					bannerElmt.style.display = "none";
+				} else if (shield.type === "GA" && shield.bannerType === "Loop") {
+					if (shield.routeNumber.length <= 2) {
+						shieldImgElmt.data = imgDir + "Georgia-2-LOOP.svg";
+					} else if (shield.routeNumber.length >= 3) {
+						shieldImgElmt.data = imgDir + "Georgia-3-LOOP.svg";
+					}
 					// set bannerPosition to "Above" as to avoid display issues
+					bannerShieldContainerElmt.style.flexDirection = "column";
 					shield.bannerPosition = "Above";
-				} else if (shield.type === "GA" && shield.bannerType === "Conn" && shield.routeNumber.length <= 2) {
-					shieldImgElmt.data = imgDir + "Georgia-2-CONN.svg";
-					bannerElmt.style.display = "none";
+				} else if (shield.type === "GA" && shield.bannerType === "Spur") {
+					if (shield.routeNumber.length <= 2) {
+						shieldImgElmt.data = imgDir + "Georgia-2-SPUR.svg";
+					} else if (shield.routeNumber.length >= 3) {
+						shieldImgElmt.data = imgDir + "Georgia-3-SPUR.svg";
+					}
 					// set bannerPosition to "Above" as to avoid display issues
-					shield.bannerPosition = "Above";
-				} else if (shield.type === "GA" && shield.bannerType === "Conn" && shield.routeNumber.length >= 3) {
-					shieldImgElmt.data = imgDir + "Georgia-3-CONN.svg";
-					bannerElmt.style.display = "none";
-					// set bannerPosition to "Above" as to avoid display issues
-					shield.bannerPosition = "Above";
-				} else if (shield.type === "GA" && shield.bannerType === "Loop" && shield.routeNumber.length <= 2) {
-					shieldImgElmt.data = imgDir + "Georgia-2-LOOP.svg";
-					bannerElmt.style.display = "none";
-					// set bannerPosition to "Above" as to avoid display issues
-					shield.bannerPosition = "Above";
-				} else if (shield.type === "GA" && shield.bannerType === "Loop" && shield.routeNumber.length >= 3) {
-					shieldImgElmt.data = imgDir + "Georgia-3-LOOP.svg";
-					bannerElmt.style.display = "none";
-					// set bannerPosition to "Above" as to avoid display issues
-					shield.bannerPosition = "Above";
-				} else if (shield.type === "GA" && shield.bannerType === "Spur" && shield.routeNumber.length <= 2) {
-					shieldImgElmt.data = imgDir + "Georgia-2-SPUR.svg";
-					bannerElmt.style.display = "none";
-					// set bannerPosition to "Above" as to avoid display issues
-					shield.bannerPosition = "Above";
-				} else if (shield.type === "GA" && shield.bannerType === "Spur" && shield.routeNumber.length >= 3) {
-					shieldImgElmt.data = imgDir + "Georgia-3-SPUR.svg";
-					bannerElmt.style.display = "none";
-					// set bannerPosition to "Above" as to avoid display issues
+					bannerShieldContainerElmt.style.flexDirection = "column";
 					shield.bannerPosition = "Above";
 				} else if (shield.type === "MN" && shield.bannerType === "Bus") {
 					shieldImgElmt.data = imgDir + "Minnesota-BUS.svg";
-					bannerElmt.style.display = "none";
 					// set bannerPosition to "Above" as to avoid display issues
+					bannerShieldContainerElmt.style.flexDirection = "column";
 					shield.bannerPosition = "Above";
 				} else if (shield.type === "NE" && shield.bannerType === "Link" && shield.routeNumber.length <= 2) {
 					shieldImgElmt.data = imgDir + "Nebraska-LINK.svg";
-					bannerElmt.style.display = "none";
-					routeNumberElmt.style.top = "-0.1em";
 					// set bannerPosition to "Above" as to avoid display issues
+					bannerShieldContainerElmt.style.flexDirection = "column";
 					shield.bannerPosition = "Above";
 				} else if (shield.type === "NE" && shield.bannerType === "Spur" && shield.routeNumber.length <= 2) {
 					shieldImgElmt.data = imgDir + "Nebraska-SPUR.svg";
-					bannerElmt.style.display = "none";
-					routeNumberElmt.style.top = "-0.1em";
 					// set bannerPosition to "Above" as to avoid display issues
+					bannerShieldContainerElmt.style.flexDirection = "column";
 					shield.bannerPosition = "Above";
 				} else if (shield.type === "TX" && shield.bannerType === "Loop") {
 					shieldImgElmt.data = imgDir + "Texas-2-LOOP.svg";
-					bannerElmt.style.display = "none";
-					routeNumberElmt.style.top = "0.4em";
 					// set bannerPosition to "Above" as to avoid display issues
+					bannerShieldContainerElmt.style.flexDirection = "column";
 					shield.bannerPosition = "Above";
 				} else if (shield.type === "TX" && shield.bannerType === "Spur") {
 					shieldImgElmt.data = imgDir + "Texas-2-SPUR.svg";
-					bannerElmt.style.display = "none";
-					routeNumberElmt.style.top = "0.4em";
 					// set bannerPosition to "Above" as to avoid display issues
+					bannerShieldContainerElmt.style.flexDirection = "column";
 					shield.bannerPosition = "Above";
 				} else if (shield.bannerType === "None") {
-					lib.clearChildren(bannerElmt);
 					// set bannerPosition to "Above" as to avoid display issues
+					bannerShieldContainerElmt.style.flexDirection = "column";
 					shield.bannerPosition = "Above";
 				}
-
-				// Direction position
-
-				bannerShieldContainerElmt.style.flexFlow = lib.shieldPositions[shield.bannerPosition];
 			}
 
 			// Control text
 			// Remove and re-add the controlText text
-			lib.clearChildren(controlTextElmt);
 			const controlTextArray = panel.sign.controlText.split("\n");
-			for (let lineNum = 0; lineNum < controlTextArray.length - 1; lineNum++) {
+			for (let lineNum = 0, length = controlTextArray.length - 1; lineNum < length; lineNum++) {
 				controlTextElmt.appendChild(document.createTextNode(controlTextArray[lineNum]));
 				controlTextElmt.appendChild(document.createElement("br"));
 			}
 			controlTextElmt.appendChild(document.createTextNode(controlTextArray[controlTextArray.length - 1]));
 
 			// Guide arrows
-			sideLeftArrowElmt.style.display = "none";
-			sideRightArrowElmt.style.display = "none";
-			guideArrowsElmt.style.display = "none";
-
-			// Remove bottomArrows text
-			lib.clearChildren(guideArrowsElmt);
-
-			signElmt.style.borderRadius = "1em";
-			signElmt.style.borderBottomWidth = "0.2em";
-
 			if ("Side Left" == panel.sign.guideArrow) {
 				sideLeftArrowElmt.style.display = "block";
 			} else if ("Side Right" == panel.sign.guideArrow) {
 				sideRightArrowElmt.style.display = "block";
-			} else if (panel.sign.guideArrow != "None") {
+			} else if ("None" != panel.sign.guideArrow) {
 				signElmt.style.borderBottomLeftRadius = "0";
 				signElmt.style.borderBottomRightRadius = "0";
 				signElmt.style.borderBottomWidth = "0";
 				guideArrowsElmt.style.display = "block";
 
 				if ("Exit Only" == panel.sign.guideArrow) {
-					guideArrowsElmt.style.backgroundColor = lib.colors["Yellow"];
-					guideArrowsElmt.style.borderColor = lib.colors["Black"];
-					guideArrowsElmt.style.color = lib.colors["Black"];
-
 					const exitOnlyArrowElmt = function() {
 						const exitOnlyArrowElmt = document.createElement("span");
 						exitOnlyArrowElmt.className = "exitOnlyArrow";
