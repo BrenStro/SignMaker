@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 21.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1"
+	 id="Shield" inkscape:version="0.43" sodipodi:docbase="C:\Documents and Settings\Alexander Bito\My Documents\Wikipedia Highways\Elongated circle shields" sodipodi:docname="Elongated circle 1.svg" sodipodi:version="0.32" xmlns:cc="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:svg="http://www.w3.org/2000/svg"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512"
+	 enable-background="new 0 0 512 512" xml:space="preserve">
+<path id="Back" display="none" d="M0,42.7C0,19.1,19.1,0,42.7,0h426.7C492.9,0,512,19.1,512,42.7v426.7c0,23.6-19.1,42.7-42.7,42.7
+	H42.7C19.1,512,0,492.9,0,469.3V42.7L0,42.7z"/>
+<g id="Circle">
+	<path fill="#FFFFFF" d="M256,506.8C117.7,506.8,5.2,394.3,5.2,256C5.2,117.7,117.7,5.2,256,5.2c138.3,0,250.8,112.5,250.8,250.8
+		C506.8,394.3,394.3,506.8,256,506.8z"/>
+	<path d="M256,10.7c135.4,0,245.3,109.9,245.3,245.3S391.4,501.3,256,501.3S10.7,391.4,10.7,256S120.6,10.7,256,10.7 M256-0.3
+		c-34.6,0-68.1,6.8-99.8,20.2c-30.5,12.9-57.9,31.4-81.5,54.9c-23.5,23.5-42,51-54.9,81.5C6.4,187.9-0.3,221.4-0.3,256
+		s6.8,68.1,20.2,99.8c12.9,30.5,31.4,57.9,54.9,81.5s51,42,81.5,54.9c31.6,13.4,65.2,20.2,99.8,20.2s68.1-6.8,99.8-20.2
+		c30.5-12.9,57.9-31.4,81.5-54.9c23.5-23.5,42-51,54.9-81.5c13.4-31.6,20.2-65.2,20.2-99.8s-6.8-68.1-20.2-99.8
+		c-12.9-30.5-31.4-57.9-54.9-81.5c-23.5-23.5-51-42-81.5-54.9C324.1,6.4,290.6-0.3,256-0.3L256-0.3z"/>
+</g>
+</svg>

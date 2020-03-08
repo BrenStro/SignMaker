@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en-us">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+		<meta name="author" content="Brendon Strowe" />
+		<meta name="description" content="Highway, Freeway, and Expressway Sign Maker." />
+
+		<link href="css/page.css" rel="stylesheet" type="text/css" />
+		<link href="css/signs.css" rel="stylesheet" type="text/css" />
+		<link href="css/shields.css" rel="stylesheet" type="text/css" />
+		<link href="css/form.css" rel="stylesheet" type="text/css" />
+
+		<script src="js/lib.js" type="text/javascript" ></script>
+		<script src="js/Shield.js" type="text/javascript" ></script>
+		<script src="js/Sign.js" type="text/javascript" ></script>
+		<script src="js/ExitTab.js" type="text/javascript" ></script>
+		<script src="js/Panel.js" type="text/javascript" ></script>
+		<script src="js/Post.js" type="text/javascript" ></script>
+		<script src="js/main.js" type="text/javascript" ></script>
+
+		<title>Sign Maker — BrenStro</title>
+	</head>
+	<body onLoad="app.init();">
+		<header>
+			<h1>Sign Maker</h1>
+		</header>
+
+		<main>
+			<div id="postContainer">
+				<div class="post"></div>
+				<div id="panelContainer">
+				</div>
+				<div class="post"></div>
+			</div>
+
+			<form name="signMaker">
+				<h2>Sign Editor</h2>
+				<!-- Panel Editing Commands -->
+				<input type="button" value="New Panel" onClick="app.newPanel();" />
+				<input type="button" value="Duplicate" onClick="app.duplicatePanel();" />
+				<input type="button" value="Delete" onClick="app.deletePanel();" />
+				<input type="button" value="<<" onClick="app.shiftLeft();" class="shiftButton" />
+				<input type="button" value=">>" onClick="app.shiftRight();" class="shiftButton" />
+				<br />
+				<!-- Post Position -->
+				<label for="postPosition">Post Position</label>
+				<select id="postPosition" onChange="app.readForm();">
+				</select>
+				<br />
+				<!-- Panel Choice -->
+				<label for="panelEditing">Editing Panel:</label>
+				<select id="panelEditing" onChange="app.changeEditingPanel();">
+				</select>
+				<br />
+				<!-- Color -->
+				<label for="panelColor">Panel Color:</label>
+				<select id="panelColor" onChange="app.readForm();">
+				</select>
+				<br />
+				<!-- Exit tab -->
+				<label for="exitNumber">Exit:</label>
+				<input type="text" id="exitNumber" name="exitNumber" placeholder="Exit 00" onChange="app.readForm();" />
+				<select id="exitTabPosition" onChange="app.readForm();">
+				</select>
+				<select id="exitTabWidth" onChange="app.readForm();">
+				</select>
+				<br />
+				<!-- Shield and banner -->
+				<fieldset>
+					<legend>Sign Shields:</legend>
+					<div id="shields">
+					</div>
+					<input type="button" value="New Shield" onclick="app.newShield();" />
+				</fieldset>
+				<!-- Position of Shields -->
+				<label for="shieldsPosition">Shield Positions:</label>
+				<select id="shieldsPosition" onChange="app.readForm();">
+				</select>
+				<label for="shieldBacks" id="shieldBacksLabel">Shield Backs: </label><input type="checkbox" id="shieldBacks" name="shieldBacks" value="shieldBacks" onChange="app.readForm();" />
+				<br />
+				<!-- Control Cities -->
+				<label for="controlText" id="controlCitiesLabel">Control Cities:</label>
+				<textarea id="controlText" wrap="hard" rows="4" onBlur="app.readForm();"></textarea>
+				<br />
+				<!-- Arrows -->
+				<label for="guideArrow">Arrows:</label>
+				<select id="guideArrow" onChange="app.readForm();">
+				</select>
+				<input type="number" id="guideArrowLanes" name="guideArrowLanes" min=1 max=6 onBlur="app.readForm();" />
+				<br />
+				<input type="text" id="actionMessage" name="actionMessage" placeholder="Action Message" onBlur="app.readForm();" />
+				<br />
+			</form>
+
+		</main>
+
+		<footer>
+			<p>Sign Maker &copy; Brendon Strowe 2020.</p>
+			<p><a href="https://github.com/BrenStro/SignMaker" target="_blank">Find this on GitHub.</a></p>
+		</footer>
+	</body>
+</html>

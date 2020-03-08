@@ -1,0 +1,111 @@
+form {
+	background-color: rgba(255, 255, 255, 0.125);
+
+		width: -moz-max-content;
+		width: -webkit-max-content;
+	width: intrinsic;
+	margin: 1rem auto 0;
+	padding: 0.5rem;
+}
+
+form, select, input, textarea {
+	font-family: "Series E";
+	font-size: 1rem;
+}
+
+select, input, textarea, label, legend {
+	width: 7.5rem;
+	margin: 0.25rem;
+}
+
+select, input, textarea {
+	background-color: rgb(230, 230, 230);
+	border: none;
+	border-radius: 0.25rem;
+
+	padding: 0.25rem;
+}
+
+select {
+	background: rgb(230, 230, 230) url(../img/select.svg) no-repeat right ;
+		-moz-appearance: none;
+		-webkit-appearance: none;
+	appearance: none;
+
+	padding-right: 17px;
+}
+
+input[type=button] {
+		-moz-appearance: none;
+		-webkit-appearance: none;
+	appearance: none;
+
+	cursor: pointer;
+	transition: background-color 0.5s;
+}
+input[type=button]:hover {
+	background-color: rgb(160, 160, 160);
+}
+input[type=checkbox] {
+	width: auto;
+}
+textarea {
+	min-width: 15.5rem;
+}
+
+label {
+	text-align: right;
+	display: inline-block;
+}
+
+.shiftButton {
+	width: 3.5rem;
+}
+
+#shieldBacksLabel {
+	width: auto;
+}
+
+fieldset {
+	border: none;
+	margin: 0.5rem 0;
+}
+
+#shields div {
+	border-radius: 0.25rem;
+
+		width: -moz-max-content;
+		width: -webkit-max-content;
+	width: intrinsic;
+	margin-left: 0.25rem;
+}
+#shields div:nth-child(odd) {
+	background-color: rgba(255, 255, 255, 0.33);
+}
+#shields label, #shields select:first-of-type {
+	width: auto;
+}
+#shields label {
+	margin: 0;
+}
+
+#controlCitiesLabel {
+	position: relative;
+	top: -5rem;
+}
+
+#guideArrowLanes {
+	width: 2.25rem;
+}
+
+#actionMessage {
+	width: 15.75rem;
+	margin-left: 8.5rem;
+}
+
+input[value="New Shield"], input[value="New Sign"] {
+	margin-bottom: 0.75rem;
+}
+input[value=Delete]:hover {
+	background-color: rgb(255, 200, 200);
+}
