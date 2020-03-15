@@ -43,8 +43,10 @@ const lib = (function() {
 		sideRightArrow : "H", // "H" is right-side up arrow in Roadgeek 2005 Arrows 1
 
 		"Left/Down Arrow" : "f", // "f" is left-down arrow in Roadgeek 2005 Arrows 1
+		"Left/Up Arrow" : "F",
 		"Left Arrow" : "j", // "j" is left arrow in Roadgeek 2005 Arrows 1
 		"Right/Down Arrow" : "F", // "F" is right-down arrow in Roadgeek 2005 Arrows 1
+		"Right/Up Arrow" : "f",
 		"Right Arrow" : "J", // "J" is right arrow in Roadgeek 2005 Arrows 1
 
 		"Up Arrow" : "4", // "4" is up arrow in Roadgeek 2005 Arrows 2

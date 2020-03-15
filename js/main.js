@@ -904,7 +904,6 @@ const app = (function() {
 							let arrowChoice = panel.sign.guideArrow;
 							if (panel.sign.guideArrow.includes("/Up")) {
 								arrowElmt.className += " rotate180";
-								arrowChoice = panel.sign.guideArrow.replace("Up", "Down");
 							}
 							arrowElmt.appendChild(document.createTextNode(lib.specialCharacters[arrowChoice]));
 							guideArrowsElmt.appendChild(arrowElmt);

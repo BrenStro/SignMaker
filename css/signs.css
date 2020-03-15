@@ -229,11 +229,19 @@
 }
 
 .sideLeftArrow {
-	padding: 0 0.1rem 3rem 0.75rem; /* Patting bumped up on the bottom to bump arrow up from the bottom edge */
+	padding: 0 0.1rem 3.25rem 0.75rem; /* Patting bumped up on the bottom to bump arrow up from the bottom edge */
+		-moz-transform: rotate(15deg);
+		-o-transform: rotate(15deg);
+		-webkit-transform: rotate(15deg);
+	transform: rotate(15deg);
 }
 
 .sideRightArrow {
 	padding: 0 0.75rem 3rem 0.1rem; /* Patting bumped up on the bottom to bump arrow up from the bottom edge */
+		-moz-transform: rotate(-15deg);
+		-o-transform: rotate(-15deg);
+		-webkit-transform: rotate(-15deg);
+	transform: rotate(-15deg);
 }
 
 .signContentContainer {
@@ -243,12 +251,15 @@
 }
 .signContentContainer.shieldPositionLeft {
 	flex-direction: row;
+	align-items: center;
 }
 .signContentContainer.shieldPositionAbove {
 	flex-direction: column;
+	justify-content: center;
 }
 .signContentContainer.shieldPositionRight {
 	flex-direction: row-reverse;
+	align-items: center;
 }
 
 .shieldsContainer {
@@ -311,6 +322,16 @@
 	position: absolute;
 }
 
+.streetName {
+	border: solid var(--white) 0.15rem;
+	border-radius: 0.25rem;
+	margin-bottom: 0.5rem;
+	padding: 0 1rem;
+}
+.streetName:last-child {
+	margin-bottom: 0
+}
+.streetName,
 .controlText {
 	font-family: "Series EM";
 	font-size: 1.2rem;
@@ -345,14 +366,12 @@
 }
 
 .rotate180 {
-	position: absolute;
-	top: 3rem;
 	left: -0.05rem;
 
-		-moz-transform: rotate(180deg);
-		-o-transform: rotate(180deg);
-		-webkit-transform: rotate(180deg);
-	transform: rotate(180deg);
+		-moz-transform: rotate(180deg) translateY(-2.75rem);
+		-o-transform: rotate(180deg) translateY(-2.75rem);
+		-webkit-transform: rotate(180deg) translateY(-2.75rem);
+	transform: rotate(180deg) translateY(-2.75rem);
 }
 
 .arrow {
