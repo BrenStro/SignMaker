@@ -20,16 +20,16 @@
 	background: linear-gradient(
 		180deg,
 		rgba(255,255,255,0) 0%,
-		rgba(255,255,255,0) 45%,
-		rgba(191,191,191,1) 45%,
-		rgba(240,240,240,1) 47%,
-		rgba(128,128,128,1) 50%,
-		rgba(255,255,255,0) 50%,
-		rgba(255,255,255,0) 60%,
-		rgba(191,191,191,1) 60%,
-		rgba(240,240,240,1) 62%,
-		rgba(128,128,128,1) 65%,
-		rgba(255,255,255,0) 65%
+		rgba(255,255,255,0) 47%,
+		rgba(191,191,191,1) 47%,
+		rgba(240,240,240,1) 49%,
+		rgba(128,128,128,1) 52%,
+		rgba(255,255,255,0) 52%,
+		rgba(255,255,255,0) 64%,
+		rgba(191,191,191,1) 64%,
+		rgba(240,240,240,1) 66%,
+		rgba(128,128,128,1) 69%,
+		rgba(255,255,255,0) 69%
 	);
 	height: 15rem;
 }
@@ -173,43 +173,51 @@
 }
 
 .exitTab {
-	border-radius: 0.35rem 0.35rem 0 0;
+	border-radius: 0.5rem 0.5rem 0 0;
 	border-top-style: solid;
-	border-top-width: 0.15rem;
+	border-top-width: 0.2rem;
 	border-right-style: solid;
-	border-right-width: 0.15rem;
+	border-right-width: 0.2rem;
 	border-bottom: none;
 	border-left-style: solid;
-	border-left-width: 0.15rem;
+	border-left-width: 0.2rem;
 
-	font-size: 0.8rem;
+	font-size: 1rem;
 
 	visibility: hidden; /* hides exitTab by default when loading page */
 	float: none;
-	margin-right: 1rem;	/* 1rem margin keeps the edge of the tab from going above the */
-	margin-left: 1rem;	/* curved corners of the panel below */
+	min-height: 2.25rem;
+	margin-right: 0.75rem;	/* Margin keeps the edge of the tab from going above the */
+	margin-left: 0.75rem;	/* curved corners of the panel below */
 	padding: 0 0.5rem 0rem 0.5rem;
 }
-.exitTab.wide {
-	display: block;
-}
 .exitTab.narrow {
-	display: inline;
+		width: -moz-max-content;
+		width: -webkit-max-content;
+		width: intrinsic;
+	width: max-content;
 }
-.exitTab.wide, .exitTab.narrow.center {
-	float: none;
-	padding-top: 0.125rem;
-	padding-bottom: 0.0625rem;
+.exitTab.narrow.center {
+	margin: auto;
 }
 .exitTab.narrow.left {
-	float: left;
+	margin-right: auto;
 }
 .exitTab.narrow.right {
-	float: right;
+	margin-left: auto;
+}
+.exitTab.wide.left {
+	justify-content: flex-start;
+}
+.exitTab.wide.center {
+	justify-content: center;
+}
+.exitTab.wide.right {
+	justify-content: flex-end;
 }
 
 .sign {
-	border-radius: 1rem;
+	border-radius: 0.75rem;
 	border-style: solid;
 	border-width: 0.2rem;
 
@@ -266,7 +274,7 @@
 	text-align: center;
 	display: flex;
 	flex-direction: row;
-	align-items: end;
+	align-items: flex-end;
 }
 
 .to {
@@ -334,14 +342,14 @@
 .streetName,
 .controlText {
 	font-family: "Series EM";
-	font-size: 1.2rem;
+	font-size: 1.5rem;
 }
 
 .guideArrows {
 	border-style: solid;
 	border-width: 0.2rem;
 	border-top-width: 0;
-	border-radius: 0 0 1rem 1rem;
+	border-radius: 0 0 0.75rem 0.75rem;
 
 	display: none;
 	padding: 0 0.25rem 0.25rem 0.25rem;
@@ -350,6 +358,15 @@
 	background-color: var(--yellow) !important;
 	border-color: var(--black) !important;
 	color: var(--black) !important;
+}
+
+.exitTab,
+.action_message {
+	display: flex;
+	align-items: center;
+}
+.action_message {
+	justify-content: center;
 }
 
 .exitOnlyArrow {
@@ -388,5 +405,11 @@
 }
 
 .numeral {
-	font-size: 1.2em;
+	font-size: 1.5rem;
+}
+.numeral:first-child {
+	padding-right: 0.5rem;
+}
+.numeral:last-child {
+	padding-left: 0.5rem;
 }

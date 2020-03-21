@@ -169,6 +169,9 @@ const app = (function() {
 		panel.sign.guideArrow = form["guideArrow"].value;
 		panel.sign.guideArrowLanes = form["guideArrowLanes"].value;
 		panel.sign.actionMessage = form["actionMessage"].value;
+		panel.sign.actionMessage = panel.sign.actionMessage.replace("1/2", "½");
+		panel.sign.actionMessage = panel.sign.actionMessage.replace("1/4", "¼");
+		panel.sign.actionMessage = panel.sign.actionMessage.replace("3/4", "¾");
 
 		// Shileds
 		panel.sign.shieldBacks = form["shieldBacks"].checked;
@@ -388,14 +391,16 @@ const app = (function() {
 
 			// Exit tab
 			if (panel.exitTab.number) {
-				const txtArr = panel.exitTab.number.toUpperCase().split(/(\d+)/);
-				exitTabElmt.appendChild(document.createTextNode(txtArr[0]));
+				const txtArr = panel.exitTab.number.toUpperCase().split(/(\d+\S*)/);
+				const spanTextElmt = document.createElement("span");
+				spanTextElmt.appendChild(document.createTextNode(txtArr[0]))
+				exitTabElmt.appendChild(spanTextElmt);
 				if (txtArr.length > 1) {
-					const spanElmt = document.createElement("span");
-					spanElmt.className = "numeral";
-					spanElmt.appendChild(document.createTextNode(txtArr[1]));
-					exitTabElmt.appendChild(spanElmt);
-					exitTabElmt.appendChild(document.createTextNode(txtArr.slice(2).join()));
+					const spanNumeralElmt = document.createElement("span");
+					spanNumeralElmt.className = "numeral";
+					spanNumeralElmt.appendChild(document.createTextNode(txtArr[1]));
+					exitTabElmt.appendChild(spanNumeralElmt);
+					exitTabElmt.appendChild(document.createTextNode(txtArr.slice(2).join("")));
 				}
 				exitTabElmt.style.visibility = "visible";
 			}
@@ -817,14 +822,15 @@ const app = (function() {
 					}
 				} else {
 					if (panel.sign.guideArrow == "Action Message") {
-						const txtArr = panel.sign.actionMessage.split(/(\d+)/);
+						guideArrowsElmt.style.display = "flex";
+						const txtArr = panel.sign.actionMessage.split(/(\d+\S*)/);
 						guideArrowsElmt.appendChild(document.createTextNode(txtArr[0]));
 						if (txtArr.length > 1) {
 							const spanElmt = document.createElement("span");
 							spanElmt.className = "numeral";
 							spanElmt.appendChild(document.createTextNode(txtArr[1]));
 							guideArrowsElmt.appendChild(spanElmt);
-							guideArrowsElmt.appendChild(document.createTextNode(txtArr.slice(2).join()));
+							guideArrowsElmt.appendChild(document.createTextNode(txtArr.slice(2).join("")));
 						}
 					} else {
 						if (panel.sign.guideArrow == "Down Arrow" || panel.sign.guideArrow == "Up Arrow") {
