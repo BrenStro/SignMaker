@@ -299,7 +299,6 @@
 	text-transform: uppercase;
 
 	margin-bottom: auto;
-	padding: 0.1rem 0.5rem 0.1rem 0.5rem;
 }
 .banner::first-letter {
 	font-size: 1.2em;
