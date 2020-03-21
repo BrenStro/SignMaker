@@ -89,6 +89,10 @@ fieldset {
 	margin: 0;
 }
 
+#streetNamesLabel {
+	position: relative;
+	top: -2.25rem;
+}
 #controlCitiesLabel {
 	position: relative;
 	top: -5rem;

@@ -39,6 +39,7 @@ class Post {
 			newShields.push(Object.assign(new Shield(), shield));
 		}
 		const newSign = new Sign({
+			streetNames : streetNames,
 			controlText : existingPanel.sign.controlText,
 			shieldPosition : existingPanel.sign.shieldPosition,
 			sheildBacks : existingPanel.sign.sheildBacks,

@@ -88,7 +88,8 @@
 	align-items: center;
 		width: -moz-max-content;
 		width: -webkit-max-content;
-	width: intrinsic;
+		width: intrinsic;
+	width: max-content;
 }
 
 .panel {
@@ -124,6 +125,10 @@
 .panel.blue .sign,
 .panel.brown .sign,
 .panel.black .sign,
+.panel.green .streetName,
+.panel.blue .streetName,
+.panel.brown .streetName,
+.panel.black .streetName,
 .panel.green .guideArrows,
 .panel.blue .guideArrows,
 .panel.brown .guideArrows,
@@ -135,6 +140,8 @@
 .panel.yellow .exitTab,
 .panel.white .sign,
 .panel.yellow .sign,
+.panel.white .streetName,
+.panel.yellow .streetName,
 .panel.white .guideArrows,
 .pabel.yellow .guideArrows {
 	color: var(--black);
@@ -322,11 +329,22 @@
 	position: absolute;
 }
 
+.streetNamesContainer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
 .streetName {
-	border: solid var(--white) 0.15rem;
+	border-style: solid;
+	border-width: 0.15rem;
 	border-radius: 0.25rem;
 	margin-bottom: 0.5rem;
 	padding: 0 1rem;
+		width: -moz-max-content;
+		width: -webkit-max-content;
+		width: intrinsic;
+	width: max-content;
 }
 .streetName:last-child {
 	margin-bottom: 0

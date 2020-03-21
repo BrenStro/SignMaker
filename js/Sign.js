@@ -3,15 +3,17 @@ class Sign {
 	/**
 	 * Cretes a new sign.
 	 * @param {Object} [opt] - Optional parameters.
+	 * @param {string} [opt.streetNames=""] - Names of streets to display on the sign.
 	 * @param {string} [opt.controlText="New Sign"] - Control cities to display on the sign.
 	 * @param {string} [opt.shieldPosition] - Where the shields should be displayed relative to the control cities.
 	 * @param {boolean} [opt.shieldBacks=false] - Whether or not shields should be displayed with backings.
 	 * @param {string} [opt.guideArrow] - Which guide arrow to display on the sign, if any.
 	 * @param {number} [opt.guideArrowLanes=1] - Number of lanes actoss to display guide arrows.
 	 * @param {string} [opt.actionMessage=""] - Custom subtext to display on the sign.
-	 * @param {Shield[]} [opt.shields] - Array of shields to include on sign.
+	 * @param {Shield[]} [opt.shields] - Array of shields to include on the sign.
 	 */
 	constructor({
+			streetNames = "",
 			controlText = "New Sign",
 			shieldPosition,
 			shieldBacks = false,
@@ -21,6 +23,7 @@ class Sign {
 			shields = []
 		} = {}
 	) {
+		this.streetNames = streetNames;
 		this.controlText = controlText;
 		if (this.shieldPositions.includes(shieldPosition)) {
 			this.shieldPosition = shieldPosition;

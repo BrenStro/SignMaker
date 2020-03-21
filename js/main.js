@@ -164,6 +164,7 @@ const app = (function() {
 		panel.exitTab.position = form["exitTabPosition"].value;
 
 		// Sign
+		panel.sign.streetNames = form["streetNames"].value;
 		panel.sign.controlText = form["controlText"].value;
 		panel.sign.shieldPosition = form["shieldsPosition"].value;
 		panel.sign.guideArrow = form["guideArrow"].value;
@@ -241,6 +242,9 @@ const app = (function() {
 
 		const shieldBacksElmt = document.getElementById("shieldBacks");
 		shieldBacksElmt.checked = panel.sign.shieldBacks;
+
+		const streetNamesElmt = document.getElementById("streetNames");
+		streetNamesElmt.value = panel.sign.streetNames;
 
 		const controlTextElmt = document.getElementById("controlText");
 		controlTextElmt.value = panel.sign.controlText;
@@ -370,6 +374,10 @@ const app = (function() {
 			const shieldsContainerElmt = document.createElement("div");
 			shieldsContainerElmt.className = `shieldsContainer ${panel.sign.shieldBacks ? "shieldBacks" : ""}`;
 			signContentContainerElmt.appendChild(shieldsContainerElmt);
+
+			const streetNamesContainerElmt = document.createElement("div");
+			streetNamesContainerElmt.className = "streetNamesContainer";
+			signContentContainerElmt.appendChild(streetNamesContainerElmt);
 
 			const controlTextElmt = document.createElement("p");
 			controlTextElmt.className = "controlText";
@@ -814,8 +822,17 @@ const app = (function() {
 				}
 			}
 
+			// Street names
+			const streetNamesArray = panel.sign.streetNames.split("\n");
+			for (let lineNum = 0, length = streetNamesArray.length; lineNum < length; lineNum++) {
+				if (streetNamesArray[lineNum].length == 0) continue;
+				const streetNameElmt = document.createElement("p");
+				streetNameElmt.className = "streetName";
+				streetNameElmt.appendChild(document.createTextNode(streetNamesArray[lineNum]));
+				streetNamesContainerElmt.appendChild(streetNameElmt);
+			}
+
 			// Control text
-			// Remove and re-add the controlText text
 			const controlTextArray = panel.sign.controlText.split("\n");
 			for (let lineNum = 0, length = controlTextArray.length - 1; lineNum < length; lineNum++) {
 				controlTextElmt.appendChild(document.createTextNode(controlTextArray[lineNum]));
