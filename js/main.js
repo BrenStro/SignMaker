@@ -401,29 +401,6 @@ const app = (function() {
 			}
 
 			// Shields
-			let hasBanners = false;
-			for (const shield of panel.sign.shields) {
-				if (
-					shield.bannerType != "None" && !(
-						(shield.type === "I-" && shield.bannerType === "Bus") ||
-						(shield.type === "AZ" && shield.bannerType === "Loop" && shield.routeNumber.length >= 3) ||
-						(shield.type === "FL" && shield.bannerType === "Toll") ||
-						(shield.type === "GA" && shield.bannerType === "Alt") ||
-						(shield.type === "GA" && shield.bannerType === "Byp") ||
-						(shield.type === "GA" && shield.bannerType === "Conn") ||
-						(shield.type === "GA" && shield.bannerType === "Loop") ||
-						(shield.type === "GA" && shield.bannerType === "Spur") ||
-						(shield.type === "MN" && shield.bannerType === "Bus") ||
-						(shield.type === "NE" && shield.bannerType === "Link" && shield.routeNumber.length <= 2) ||
-						(shield.type === "NE" && shield.bannerType === "Spur" && shield.routeNumber.length <= 2) ||
-						(shield.type === "TX" && shield.bannerType === "Loop") ||
-						(shield.type === "TX" && shield.bannerType === "Spur") 
-					)
-				) {
-					hasBanners = true;
-					break;
-				}
-			}
 			for (const shield of panel.sign.shields) {
 				const toElmt = document.createElement("p");
 				toElmt.className = "to";
@@ -710,12 +687,9 @@ const app = (function() {
 				routeNumberElmt.appendChild(document.createTextNode(shield.routeNumber));
 
 				// Route banner
-				if (hasBanners && shield.bannerType == "None") {
-					bannerElmt.style.visibility = "hidden";
-				} else if (!hasBanners) {
-					bannerElmt.style.display = "none";
+				if (shield.bannerType != "None") {
+					bannerElmt.appendChild(document.createTextNode(shield.bannerType));
 				}
-				bannerElmt.appendChild(document.createTextNode(shield.bannerType));
 
 				// Special states
 				if (shield.type === "I-" && shield.bannerType === "Bus") {
@@ -724,9 +698,6 @@ const app = (function() {
 					} else if (shield.routeNumber.length >= 3) {
 						shieldImgElmt.data = imgDir + "Interstate-3-BUS.svg";
 					}
-					// set bannerPosition to "Above" as to avoid display issues
-					bannerShieldContainerElmt.style.flexDirection = "column";
-					shield.bannerPosition = "Above";
 				} else if (shield.type === "AZ" && shield.bannerType === "Loop" && shield.routeNumber.length >= 3) {
 					shieldImgElmt.data = imgDir + "Arizona-3-LOOP.svg";
 					// set bannerPosition to "Above" as to avoid display issues
@@ -734,83 +705,46 @@ const app = (function() {
 					shield.bannerPosition = "Above";
 				} else if (shield.type === "FL" && shield.bannerType === "Toll") {
 					shieldImgElmt.data = imgDir + "Florida-TOLL.svg";
-					// set bannerPosition to "Above" as to avoid display issues
-					bannerShieldContainerElmt.style.flexDirection = "column";
-					shield.bannerPosition = "Above";
 				} else if (shield.type === "GA" && shield.bannerType === "Alt") {
 					if (shield.routeNumber.length <= 2) {
 						shieldImgElmt.data = imgDir + "Georgia-2-ALT.svg";
 					} else if (shield.routeNumber.length >= 3) {
 						shieldImgElmt.data = imgDir + "Georgia-3-ALT.svg";
 					}
-					// set bannerPosition to "Above" as to avoid display issues
-					bannerShieldContainerElmt.style.flexDirection = "column";
-					shield.bannerPosition = "Above";
 				} else if (shield.type === "GA" && shield.bannerType === "Byp") {
 					if (shield.routeNumber.length <= 2) {
 						shieldImgElmt.data = imgDir + "Georgia-2-BYP.svg";
 					} else if (shield.routeNumber.length >= 3) {
 						shieldImgElmt.data = imgDir + "Georgia-3-BYP.svg";
 					}
-					// set bannerPosition to "Above" as to avoid display issues
-					bannerShieldContainerElmt.style.flexDirection = "column";
-					shield.bannerPosition = "Above";
 				} else if (shield.type === "GA" && shield.bannerType === "Conn") {
 					if (shield.routeNumber.length <= 2) {
 						shieldImgElmt.data = imgDir + "Georgia-2-CONN.svg";
 					} else if (shield.routeNumber.length >= 3) {
 						shieldImgElmt.data = imgDir + "Georgia-3-CONN.svg";
 					}
-					// set bannerPosition to "Above" as to avoid display issues
-					bannerShieldContainerElmt.style.flexDirection = "column";
-					shield.bannerPosition = "Above";
 				} else if (shield.type === "GA" && shield.bannerType === "Loop") {
 					if (shield.routeNumber.length <= 2) {
 						shieldImgElmt.data = imgDir + "Georgia-2-LOOP.svg";
 					} else if (shield.routeNumber.length >= 3) {
 						shieldImgElmt.data = imgDir + "Georgia-3-LOOP.svg";
 					}
-					// set bannerPosition to "Above" as to avoid display issues
-					bannerShieldContainerElmt.style.flexDirection = "column";
-					shield.bannerPosition = "Above";
 				} else if (shield.type === "GA" && shield.bannerType === "Spur") {
 					if (shield.routeNumber.length <= 2) {
 						shieldImgElmt.data = imgDir + "Georgia-2-SPUR.svg";
 					} else if (shield.routeNumber.length >= 3) {
 						shieldImgElmt.data = imgDir + "Georgia-3-SPUR.svg";
 					}
-					// set bannerPosition to "Above" as to avoid display issues
-					bannerShieldContainerElmt.style.flexDirection = "column";
-					shield.bannerPosition = "Above";
 				} else if (shield.type === "MN" && shield.bannerType === "Bus") {
 					shieldImgElmt.data = imgDir + "Minnesota-BUS.svg";
-					// set bannerPosition to "Above" as to avoid display issues
-					bannerShieldContainerElmt.style.flexDirection = "column";
-					shield.bannerPosition = "Above";
 				} else if (shield.type === "NE" && shield.bannerType === "Link" && shield.routeNumber.length <= 2) {
 					shieldImgElmt.data = imgDir + "Nebraska-LINK.svg";
-					// set bannerPosition to "Above" as to avoid display issues
-					bannerShieldContainerElmt.style.flexDirection = "column";
-					shield.bannerPosition = "Above";
 				} else if (shield.type === "NE" && shield.bannerType === "Spur" && shield.routeNumber.length <= 2) {
 					shieldImgElmt.data = imgDir + "Nebraska-SPUR.svg";
-					// set bannerPosition to "Above" as to avoid display issues
-					bannerShieldContainerElmt.style.flexDirection = "column";
-					shield.bannerPosition = "Above";
 				} else if (shield.type === "TX" && shield.bannerType === "Loop") {
 					shieldImgElmt.data = imgDir + "Texas-2-LOOP.svg";
-					// set bannerPosition to "Above" as to avoid display issues
-					bannerShieldContainerElmt.style.flexDirection = "column";
-					shield.bannerPosition = "Above";
 				} else if (shield.type === "TX" && shield.bannerType === "Spur") {
 					shieldImgElmt.data = imgDir + "Texas-2-SPUR.svg";
-					// set bannerPosition to "Above" as to avoid display issues
-					bannerShieldContainerElmt.style.flexDirection = "column";
-					shield.bannerPosition = "Above";
-				} else if (shield.bannerType === "None") {
-					// set bannerPosition to "Above" as to avoid display issues
-					bannerShieldContainerElmt.style.flexDirection = "column";
-					shield.bannerPosition = "Above";
 				}
 			}
 

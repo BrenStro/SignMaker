@@ -15,7 +15,7 @@
 	font-family: "Series C";
 }
 .bannerShieldContainer.I-.bus .banner {
-	visibility: hidden;
+	display: none;
 }
 
 .bannerShieldContainer.US .routeNumber,
@@ -67,7 +67,7 @@
 	top: 0.2em;
 }
 .bannerShieldContainer.AZ.loop.three .banner {
-	visibility: hidden;
+	display: none;
 }
 
 .bannerShieldContainer.AR .routeNumber {
@@ -122,7 +122,7 @@
 	font-family: "Series C";
 }
 .bannerShieldContainer.FL.toll .banner {
-	visibility: hidden;
+	display: none;
 }
 .bannerShieldContainer.FL.toll .routeNumber {
 	font-family: "Series C";
@@ -146,7 +146,7 @@
 .bannerShieldContainer.GA.conn .banner,
 .bannerShieldContainer.GA.loop .banner,
 .bannerShieldContainer.GA.spur .banner {
-	visibility: hidden;
+	display: none;
 }
 
 .bannerShieldContainer.HI .routeNumber {
@@ -234,7 +234,7 @@
 	top: 0.55em;
 }
 .bannerShieldContainer.MN.bus .banner {
-	visibility: hidden;
+	display: none;
 }
 
 .bannerShieldContainer.MO .routeNumber {
@@ -289,7 +289,7 @@
 .bannerShieldContainer.NE.link.two .banner,
 .bannerShieldContainer.NE.spur.one .banner,
 .bannerShieldContainer.NE.spur.two .banner {
-	visibility: hidden;
+	display: none;
 }
 .bannerShieldContainer.NE.link.one .routeNumber
 .bannerShieldContainer.NE.link.two .routeNumber,
@@ -444,7 +444,7 @@
 }
 .bannerShieldContainer.TX.loop .banner,
 .bannerShieldContainer.TX.spur .banner {
-	visibility: hidden;
+	display: none;
 }
 .bannerShieldContainer.TX.loop .routeNumber,
 .bannerShieldContainer.TX.spur .routeNumber {

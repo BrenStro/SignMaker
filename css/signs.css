@@ -266,6 +266,7 @@
 	text-align: center;
 	display: flex;
 	flex-direction: row;
+	align-items: end;
 }
 
 .to {
